@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>VIR CASINO</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #1f2833;
+            --accent: #66fcf1;
+            --text-color: #ffffff;
+            --text-dim: #c5c6c7;
+            --gold: #ffb703;
+            --danger: #e63946;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--card-bg);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .user-info { font-weight: 600; font-size: 15px; }
+
+        .balance-container {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .balance-val { font-weight: 700; color: var(--gold); }
+
+        .actions-bar {
+            display: flex;
+            gap: 10px;
+            padding: 12px 16px;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .btn:active { transform: scale(0.96); }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-block { width: 100%; }
+
+        .games-nav {
+            display: flex;
+            overflow-x: auto;
+            padding: 0 16px 12px 16px;
+            gap: 8px;
+        }
+
+        .nav-tab {
+            padding: 8px 14px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            white-space: nowrap;
+            color: var(--text-dim);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .nav-tab.active {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .main-container { flex: 1; padding: 0 16px 16px 16px; }
+
+        .game-section {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .game-section.active { display: block; }
+
+        .bet-control {
+            margin: 12px 0;
+            text-align: left;
+        }
+
+        .bet-control label { font-size: 13px; color: var(--text-dim); }
+
+        .bet-control input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 4px;
+            outline: none;
+        }
+
+        /* Поле Мины */
+        .mines-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin: 12px 0;
+        }
+
+        .mine-cell {
+            aspect-ratio: 1;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .mine-cell.opened { background: var(--accent); color: #000; }
+        .mine-cell.exploded { background: var(--danger); }
+
+        /* Модалка */
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+        }
+
+        .promo-input {
+            width: 100%;
+            padding: 10px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid var(--accent);
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 16px;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="user-info" id="user-name">Игрок</div>
+        <div class="balance-container">
+            <span>💎</span>
+            <span class="balance-val" id="balance-val">0</span>
+            <span>VIR</span>
+        </div>
+    </header>
+
+    <div class="actions-bar">
+        <button class="btn btn-secondary" onclick="claimBonus()">🎁 Бонус</button>
+        <button class="btn btn-secondary" onclick="openPromoModal()">🎟 Промокод</button>
+    </div>
+
+    <div class="games-nav">
+        <div class="nav-tab active" onclick="switchGame('slots', event)">🎰 Слоты</div>
+        <div class="nav-tab" onclick="switchGame('mines', event)">💣 Мины</div>
+        <div class="nav-tab" onclick="switchGame('wheel', event)">🎡 Колесо</div>
+        <div class="nav-tab" onclick="switchGame('coin', event)">🪙 Монета</div>
+    </div>
+
+    <div class="main-container">
+        <!-- Слоты -->
+        <div id="game-slots" class="game-section active">
+            <h2>🎰 Слоты</h2>
+            <div style="font-size: 36px; margin: 20px 0;" id="slots-reels">❓ | ❓ | ❓</div>
+            <div class="bet-control">
+                <label>Ставка (VIR):</label>
+                <input type="number" id="slots-bet" value="100" min="100">
+            </div>
+            <button class="btn btn-block" onclick="playSlots()">Крутить</button>
+        </div>
+
+        <!-- Мины -->
+        <div id="game-mines" class="game-section">
+            <h2>💣 Мины</h2>
+            <div id="mines-board" class="mines-grid"></div>
+            <div class="bet-control">
+                <label>Ставка (VIR):</label>
+                <input type="number" id="mines-bet" value="100" min="100">
+            </div>
+            <div style="display:flex; gap:8px;">
+                <button class="btn btn-block" id="mines-start-btn" onclick="startMines()">Старт</button>
+                <button class="btn btn-secondary btn-block" id="mines-cashout-btn" onclick="cashoutMines()" style="display:none;">Забрать</button>
+            </div>
+        </div>
+
+        <!-- Колесо -->
+        <div id="game-wheel" class="game-section">
+            <h2>🎡 Колесо Фортуны</h2>
+            <div style="margin: 15px auto; width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 32px;" id="wheel-target">🎯</div>
+            <div class="bet-control">
+                <label>Ставка (VIR):</label>
+                <input type="number" id="wheel-bet" value="100" min="100">
+            </div>
+            <button class="btn btn-block" onclick="playWheel()">Крутить</button>
+        </div>
+
+        <!-- Монетка -->
+        <div id="game-coin" class="game-section">
+            <h2>🪙 Монетка</h2>
+            <div style="font-size: 40px; margin: 15px 0;" id="coin-res">🪙</div>
+            <div class="bet-control">
+                <label>Ставка (VIR):</label>
+                <input type="number" id="coin-bet" value="100" min="100">
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn" onclick="playCoin('орёл')">Орёл</button>
+                <button class="btn" onclick="playCoin('решка')">Решка</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модалка Промокода -->
+    <div id="promo-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h3>🎟 Активация промокода</h3>
+            <input type="text" id="promo-input" placeholder="ВВЕДИТЕ КОД" class="promo-input" autocomplete="off" />
+            <div style="display:flex; gap:8px;">
+                <button class="btn" onclick="submitPromocode()">Активировать</button>
+                <button class="btn btn-secondary" onclick="closePromoModal()">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.expand();
+            if (tg.initDataUnsafe?.user) {
+                document.getElementById('user-name').innerText = tg.initDataUnsafe.user.first_name || 'Игрок';
+            }
+        }
+
+        async function apiRequest(endpoint, bodyData = {}) {
+            const initData = tg?.initData || '';
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ initData, ...bodyData })
+                });
+                return await response.json();
+            } catch (err) {
+                return { success: false, message: 'Ошибка связи с сервером!' };
+            }
+        }
+
+        function updateBalance(val) { document.getElementById('balance-val').innerText = val; }
+
+        function switchGame(id, e) {
+            document.querySelectorAll('.game-section').forEach(x => x.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(x => x.classList.remove('active'));
+            document.getElementById(`game-${id}`).classList.add('active');
+            if (e) e.currentTarget.classList.add('active');
+        }
+
+        function openPromoModal() { document.getElementById('promo-modal').style.display = 'flex'; }
+        function closePromoModal() { 
+            document.getElementById('promo-modal').style.display = 'none'; 
+            document.getElementById('promo-input').value = '';
+        }
+
+        async function submitPromocode() {
+            const code = document.getElementById('promo-input').value.trim();
+            if (!code) return alert('Введите код!');
+            const res = await apiRequest('/api/promocode', { code });
+            alert(res.message);
+            if (res.success) {
+                updateBalance(res.balance);
+                closePromoModal();
+            }
+        }
+
+        async function claimBonus() {
+            const res = await apiRequest('/api/bonus');
+            alert(res.message);
+            if (res.success) updateBalance(res.balance);
+        }
+
+        async function playSlots() {
+            const bet = +document.getElementById('slots-bet').value;
+            const res = await apiRequest('/api/play', { game: 'slots', bet });
+            if (!res.success) return alert(res.message);
+            document.getElementById('slots-reels').innerText = res.reels.join(' | ');
+            updateBalance(res.balance);
+            if (res.win > 0) alert(`Выигрыш: +${res.win} VIR!`);
+        }
+
+        async function playWheel() {
+            const bet = +document.getElementById('wheel-bet').value;
+            const res = await apiRequest('/api/play', { game: 'wheel', bet });
+            if (!res.success) return alert(res.message);
+            updateBalance(res.balance);
+            alert(res.win > 0 ? `Выигрыш (x${res.mult}): +${res.win} VIR!` : 'Мимо!');
+        }
+
+        async function playCoin(choice) {
+            const bet = +document.getElementById('coin-bet').value;
+            const res = await apiRequest('/api/play', { game: 'coin', bet, choice });
+            if (!res.success) return alert(res.message);
+            document.getElementById('coin-res').innerText = res.result === 'орёл' ? '🦅' : '🪙';
+            updateBalance(res.balance);
+            alert(res.win > 0 ? `Вы выиграли +${res.win} VIR!` : 'Не угадали!');
+        }
+
+        let activeMinesGame = false;
+        function renderMinesBoard() {
+            const board = document.getElementById('mines-board');
+            board.innerHTML = '';
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'mine-cell';
+                cell.innerText = '❓';
+                cell.onclick = () => stepMine(i, cell);
+                board.appendChild(cell);
+            }
+        }
+
+        async function startMines() {
+            const bet = +document.getElementById('mines-bet').value;
+            const res = await apiRequest('/api/mines/start', { bet, minesCount: 3 });
+            if (!res.success) return alert(res.message);
+            
+            updateBalance(res.balance);
+            activeMinesGame = true;
+            renderMinesBoard();
+            document.getElementById('mines-start-btn').style.display = 'none';
+            document.getElementById('mines-cashout-btn').style.display = 'block';
+        }
+
+        async function stepMine(idx, cell) {
+            if (!activeMinesGame || cell.classList.contains('opened')) return;
+            const res = await apiRequest('/api/mines/step', { step: idx });
+            if (!res.success) return;
+
+            if (res.exploded) {
+                cell.classList.add('exploded');
+                cell.innerText = '💥';
+                alert('БОМБА! Ставка сгорела.');
+                resetMinesUI();
+            } else {
+                cell.classList.add('opened');
+                cell.innerText = '💎';
+                document.getElementById('mines-cashout-btn').innerText = `Забрать (${res.currentWin} VIR)`;
+            }
+        }
+
+        async function cashoutMines() {
+            const res = await apiRequest('/api/mines/cashout');
+            if (!res.success) return alert(res.message);
+            alert(`Забрал +${res.win} VIR!`);
+            updateBalance(res.balance);
+            resetMinesUI();
+        }
+
+        function resetMinesUI() {
+            activeMinesGame = false;
+            document.getElementById('mines-start-btn').style.display = 'block';
+            document.getElementById('mines-cashout-btn').style.display = 'none';
+            document.getElementById('mines-cashout-btn').innerText = 'Забрать';
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            renderMinesBoard();
+            const res = await apiRequest('/api/user_info');
+            if (res.success) updateBalance(res.balance);
+        });
+    </script>
+</body>
+</html>
