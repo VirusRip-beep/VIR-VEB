@@ -58,7 +58,6 @@
 
 
         body {
-
             font-family:
                 -apple-system,
                 BlinkMacSystemFont,
@@ -71,22 +70,25 @@
 
             background:
                 radial-gradient(
-                    circle at 50% 12%,
-                    rgba(25, 35, 55, .28),
-                    transparent 45%
+                    circle at 50% 10%,
+                    rgba(25, 35, 55, .30),
+                    transparent 43%
                 ),
                 #020305;
 
             overflow-x: hidden;
 
             padding-top:
-                max(10px, env(safe-area-inset-top));
+                max(8px, env(safe-area-inset-top));
 
-            padding-left: 10px;
-            padding-right: 10px;
+            padding-left: 8px;
+            padding-right: 8px;
 
             padding-bottom:
-                calc(82px + env(safe-area-inset-bottom));
+                calc(
+                    82px +
+                    env(safe-area-inset-bottom)
+                );
         }
 
 
@@ -95,8 +97,10 @@
         ===================================================== */
 
         .header {
-
             width: 100%;
+
+            height: 72px;
+            min-height: 72px;
 
             display: grid;
 
@@ -105,9 +109,7 @@
 
             align-items: center;
 
-            min-height: 78px;
-
-            margin-bottom: 10px;
+            margin-bottom: 9px;
         }
 
 
@@ -116,27 +118,30 @@
         ===================================================== */
 
         .user-box {
-
             justify-self: start;
 
             display: flex;
             align-items: center;
 
-            gap: 8px;
+            gap: 7px;
 
             min-width: 0;
 
-            padding: 5px 9px 5px 5px;
+            height: 45px;
+
+            padding:
+                4px 9px 4px 4px;
 
             background:
                 linear-gradient(
                     145deg,
-                    rgba(20, 24, 31, .96),
-                    rgba(5, 7, 11, .96)
+                    rgba(20, 24, 31, .97),
+                    rgba(5, 7, 11, .97)
                 );
 
             border:
-                1px solid rgba(255,255,255,.12);
+                1px solid
+                rgba(255,255,255,.12);
 
             border-radius: 10px;
 
@@ -146,12 +151,9 @@
         }
 
 
-        /* Реальная аватарка Telegram */
-
         .avatar {
-
-            width: 35px;
-            height: 35px;
+            width: 36px;
+            height: 36px;
 
             flex-shrink: 0;
 
@@ -173,7 +175,8 @@
                 );
 
             border:
-                1px solid rgba(255,255,255,.13);
+                1px solid
+                rgba(255,255,255,.13);
 
             color: #65e36d;
 
@@ -192,8 +195,7 @@
 
 
         .user-name {
-
-            max-width: 90px;
+            max-width: 82px;
 
             overflow: hidden;
 
@@ -216,15 +218,15 @@
         ===================================================== */
 
         .logo {
-
             text-align: center;
 
             line-height: 1;
+
+            position: relative;
         }
 
 
         .logo-title {
-
             position: relative;
 
             font-family:
@@ -233,7 +235,7 @@
                 serif;
 
             font-size:
-                clamp(26px, 7vw, 38px);
+                clamp(27px, 7vw, 38px);
 
             font-weight: 900;
 
@@ -266,20 +268,19 @@
 
 
         .logo-title::before {
-
             content: "♛";
 
             position: absolute;
 
             left: 50%;
-            top: -16px;
+            top: -15px;
 
             transform:
                 translateX(-50%);
 
             color: #f4c442;
 
-            font-size: 18px;
+            font-size: 17px;
 
             filter:
                 drop-shadow(
@@ -290,10 +291,9 @@
 
 
         .logo-subtitle {
+            margin-top: 5px;
 
-            margin-top: 6px;
-
-            font-size: 10px;
+            font-size: 9px;
 
             font-weight: 800;
 
@@ -308,18 +308,20 @@
         ===================================================== */
 
         .balance-box {
-
             justify-self: end;
 
             display: flex;
 
             align-items: center;
 
-            gap: 7px;
+            gap: 6px;
 
-            padding: 6px 7px;
+            height: 45px;
 
-            min-width: 106px;
+            min-width: 104px;
+
+            padding:
+                5px 6px;
 
             background:
                 linear-gradient(
@@ -344,7 +346,6 @@
 
 
         .coin {
-
             width: 25px;
             height: 25px;
 
@@ -381,15 +382,15 @@
 
 
         .balance-info {
-
             text-align: left;
 
             line-height: 1.05;
+
+            min-width: 0;
         }
 
 
         .balance {
-
             font-size: 12px;
 
             font-weight: 900;
@@ -399,7 +400,6 @@
 
 
         .currency {
-
             margin-top: 3px;
 
             font-size: 8px;
@@ -411,9 +411,8 @@
 
 
         .plus {
-
-            width: 26px;
-            height: 26px;
+            width: 25px;
+            height: 25px;
 
             flex-shrink: 0;
 
@@ -430,7 +429,7 @@
 
             color: #a45cff;
 
-            font-size: 22px;
+            font-size: 21px;
 
             font-weight: 300;
 
@@ -448,7 +447,6 @@
         ===================================================== */
 
         .page {
-
             display: none;
 
             animation:
@@ -484,7 +482,6 @@
         ===================================================== */
 
         .games-grid {
-
             width: 100%;
 
             display: grid;
@@ -495,28 +492,23 @@
                     minmax(0, 1fr)
                 );
 
-            gap: 8px;
+            column-gap: 8px;
+            row-gap: 9px;
 
             padding:
-                0 3px;
+                0 2px;
         }
 
 
         .game-card {
-
             position: relative;
 
             width: 100%;
 
             /*
-             * ВАЖНО:
-             *
-             * Не 16:9.
-             *
-             * На твоём референсе
-             * карточки почти квадратные.
+             * Соотношение карточек
+             * для вертикального мобильного интерфейса.
              */
-
             aspect-ratio:
                 1.19 / 1;
 
@@ -536,6 +528,9 @@
 
             cursor: pointer;
 
+            transform:
+                translateZ(0);
+
             transition:
                 transform .12s ease,
                 filter .12s ease;
@@ -543,7 +538,6 @@
 
 
         .game-card::after {
-
             content: "";
 
             position: absolute;
@@ -567,7 +561,6 @@
 
 
         .game-card img {
-
             width: 100%;
             height: 100%;
 
@@ -577,6 +570,9 @@
 
             object-position: center;
 
+            transform:
+                scale(1.001);
+
             transition:
                 transform .15s ease,
                 filter .15s ease;
@@ -584,7 +580,6 @@
 
 
         .game-card:active {
-
             transform:
                 scale(.965);
 
@@ -594,7 +589,6 @@
 
 
         .game-card:active img {
-
             transform:
                 scale(1.015);
         }
@@ -605,9 +599,8 @@
         ===================================================== */
 
         .content-box {
-
             margin:
-                5px 3px;
+                5px 2px;
 
             padding: 18px;
 
@@ -631,7 +624,6 @@
 
 
         .profile-title {
-
             text-align: center;
 
             color: #e9ae32;
@@ -647,7 +639,6 @@
 
 
         .info-row {
-
             display: flex;
 
             justify-content:
@@ -680,7 +671,6 @@
         ===================================================== */
 
         .bottom-nav {
-
             position: fixed;
 
             left: 0;
@@ -691,12 +681,12 @@
 
             height:
                 calc(
-                    72px +
+                    74px +
                     env(safe-area-inset-bottom)
                 );
 
             padding:
-                5px 8px
+                5px 7px
                 env(safe-area-inset-bottom);
 
             display: flex;
@@ -731,12 +721,11 @@
 
 
         .nav-item {
-
             position: relative;
 
             width: 20%;
 
-            height: 63px;
+            height: 64px;
 
             display: flex;
 
@@ -746,7 +735,7 @@
 
             justify-content: center;
 
-            gap: 4px;
+            gap: 3px;
 
             color: #626a75;
 
@@ -763,14 +752,12 @@
 
 
         .nav-item:active {
-
             transform:
                 scale(.92);
         }
 
 
         .nav-icon {
-
             width: 36px;
             height: 36px;
 
@@ -786,7 +773,6 @@
 
 
         .nav-icon svg {
-
             width: 25px;
             height: 25px;
 
@@ -796,7 +782,6 @@
 
 
         .nav-item.active {
-
             color:
                 var(--gold);
         }
@@ -804,7 +789,6 @@
 
         .nav-item.active
         .nav-icon {
-
             filter:
                 drop-shadow(
                     0 0 8px
@@ -814,12 +798,28 @@
 
 
         .nav-label {
-
             text-transform:
                 uppercase;
 
             letter-spacing:
                 .2px;
+        }
+
+
+        /* =====================================================
+           БОЛЬШИЕ ЭКРАНЫ
+        ===================================================== */
+
+        @media (min-width: 600px) {
+
+            body {
+                max-width:
+                    430px;
+
+                margin:
+                    0 auto;
+            }
+
         }
 
 
@@ -830,85 +830,149 @@
         @media (max-width: 360px) {
 
             body {
-
-                padding-left: 7px;
-                padding-right: 7px;
+                padding-left: 6px;
+                padding-right: 6px;
             }
 
 
             .header {
-
-                min-height: 72px;
+                height: 69px;
+                min-height: 69px;
             }
 
 
             .user-box {
+                height: 43px;
 
                 padding-right: 6px;
             }
 
 
-            .user-name {
+            .avatar {
+                width: 34px;
+                height: 34px;
+            }
 
+
+            .user-name {
                 max-width: 58px;
             }
 
 
             .balance-box {
+                min-width: 94px;
 
-                min-width: 92px;
+                height: 43px;
 
-                padding: 6px;
+                padding: 5px;
 
                 gap: 5px;
             }
 
 
             .plus {
-
                 width: 24px;
                 height: 24px;
             }
 
 
             .games-grid {
-
-                gap: 6px;
+                column-gap: 6px;
+                row-gap: 7px;
 
                 padding:
-                    0 2px;
+                    0 1px;
+            }
+
+
+            .game-card {
+                border-radius: 8px;
             }
 
 
             .logo-title {
-
                 font-size: 25px;
             }
 
 
             .logo-subtitle {
-
                 font-size: 8px;
 
                 letter-spacing: 3px;
+            }
+
+
+            .bottom-nav {
+                height:
+                    calc(
+                        72px +
+                        env(safe-area-inset-bottom)
+                    );
+
+                padding-left: 4px;
+                padding-right: 4px;
+            }
+
+
+            .nav-item {
+                height: 62px;
+            }
+
+
+            .nav-icon {
+                width: 34px;
+                height: 34px;
+            }
+
+
+            .nav-icon svg {
+                width: 24px;
+                height: 24px;
             }
 
         }
 
 
         /* =====================================================
-           БОЛЬШОЙ ЭКРАН
+           ОЧЕНЬ УЗКИЕ ЭКРАНЫ
         ===================================================== */
 
-        @media (min-width: 600px) {
+        @media (max-width: 330px) {
 
-            body {
+            .user-box {
+                gap: 5px;
+            }
 
-                max-width:
-                    700px;
 
-                margin:
-                    auto;
+            .user-name {
+                max-width: 48px;
+            }
+
+
+            .balance-box {
+                min-width: 88px;
+            }
+
+
+            .coin {
+                width: 23px;
+                height: 23px;
+            }
+
+
+            .balance {
+                font-size: 11px;
+            }
+
+
+            .logo-title {
+                font-size: 23px;
+            }
+
+
+            .games-grid {
+                column-gap: 5px;
+                row-gap: 6px;
             }
 
         }
@@ -927,9 +991,6 @@
 
     <header class="header">
 
-
-        <!-- АВАТАРКА + ИМЯ -->
-
         <div class="user-box">
 
             <div
@@ -938,7 +999,6 @@
             >
                 ☣
             </div>
-
 
             <div class="user-info">
 
@@ -954,8 +1014,6 @@
         </div>
 
 
-        <!-- ЛОГО -->
-
         <div class="logo">
 
             <div class="logo-title">
@@ -969,8 +1027,6 @@
         </div>
 
 
-        <!-- БАЛАНС -->
-
         <div
             class="balance-box"
             onclick="addBalance()"
@@ -979,7 +1035,6 @@
             <div class="coin">
                 ✦
             </div>
-
 
             <div class="balance-info">
 
@@ -990,13 +1045,11 @@
                     12 500
                 </div>
 
-
                 <div class="currency">
                     VIR
                 </div>
 
             </div>
-
 
             <div class="plus">
                 +
@@ -1005,7 +1058,6 @@
         </div>
 
     </header>
-
 
 
     <!-- =====================================================
@@ -1020,8 +1072,6 @@
         <div class="games-grid">
 
 
-            <!-- PLINKO -->
-
             <div
                 class="game-card"
                 onclick="openGame('plinko')"
@@ -1034,8 +1084,6 @@
 
             </div>
 
-
-            <!-- SLOTS -->
 
             <div
                 class="game-card"
@@ -1050,8 +1098,6 @@
             </div>
 
 
-            <!-- WHEEL -->
-
             <div
                 class="game-card"
                 onclick="openGame('wheel')"
@@ -1064,8 +1110,6 @@
 
             </div>
 
-
-            <!-- MINES -->
 
             <div
                 class="game-card"
@@ -1080,8 +1124,6 @@
             </div>
 
 
-            <!-- COIN -->
-
             <div
                 class="game-card"
                 onclick="openGame('coin')"
@@ -1094,8 +1136,6 @@
 
             </div>
 
-
-            <!-- CRASH -->
 
             <div
                 class="game-card"
@@ -1112,7 +1152,6 @@
         </div>
 
     </main>
-
 
 
     <!-- =====================================================
@@ -1161,7 +1200,6 @@
     </section>
 
 
-
     <!-- =====================================================
          НАСТРОЙКИ
     ===================================================== -->
@@ -1206,7 +1244,6 @@
         </div>
 
     </section>
-
 
 
     <!-- =====================================================
@@ -1268,7 +1305,6 @@
     </section>
 
 
-
     <!-- =====================================================
          ПОМОЩЬ
     ===================================================== -->
@@ -1302,15 +1338,12 @@
     </section>
 
 
-
     <!-- =====================================================
          НИЖНЕЕ МЕНЮ
     ===================================================== -->
 
     <nav class="bottom-nav">
 
-
-        <!-- ПРОФИЛЬ -->
 
         <div
             class="nav-item"
@@ -1358,9 +1391,6 @@
 
         </div>
 
-
-
-        <!-- НАСТРОЙКИ -->
 
         <div
             class="nav-item"
@@ -1460,9 +1490,6 @@
         </div>
 
 
-
-        <!-- ТОП -->
-
         <div
             class="nav-item"
             onclick="
@@ -1525,9 +1552,6 @@
         </div>
 
 
-
-        <!-- ПОМОЩЬ -->
-
         <div
             class="nav-item"
             onclick="
@@ -1578,9 +1602,6 @@
 
         </div>
 
-
-
-        <!-- ЕЩЁ -->
 
         <div
             class="nav-item active"
@@ -1644,24 +1665,19 @@
     </nav>
 
 
-
     <!-- =====================================================
          JAVASCRIPT
     ===================================================== -->
 
     <script>
 
-        /*
-         * Telegram WebApp
-         */
-
         const tg =
             window.Telegram?.WebApp;
 
 
-        /*
-         * Инициализация Telegram
-         */
+        /* =====================================================
+           TELEGRAM
+        ===================================================== */
 
         if (tg) {
 
@@ -1669,10 +1685,6 @@
 
             tg.expand();
 
-
-            /*
-             * Цвет Telegram WebApp
-             */
 
             try {
 
@@ -1694,20 +1706,11 @@
             }
 
 
-            /*
-             * Получаем пользователя
-             */
-
             const user =
                 tg.initDataUnsafe?.user;
 
 
             if (user) {
-
-
-                /*
-                 * Имя
-                 */
 
                 const name =
                     user.first_name ||
@@ -1728,11 +1731,6 @@
                     )
                     .textContent = name;
 
-
-
-                /*
-                 * АВАТАРКА TELEGRAM
-                 */
 
                 const avatar =
                     document.getElementById(
@@ -1767,7 +1765,6 @@
         }
 
 
-
         /* =====================================================
            ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ
         ===================================================== */
@@ -1776,11 +1773,6 @@
             pageId,
             element
         ) {
-
-
-            /*
-             * Скрываем страницы
-             */
 
             document
                 .querySelectorAll(".page")
@@ -1792,10 +1784,6 @@
 
                 });
 
-
-            /*
-             * Показываем нужную страницу
-             */
 
             const page =
                 document.getElementById(
@@ -1812,10 +1800,6 @@
             }
 
 
-            /*
-             * Убираем active
-             */
-
             document
                 .querySelectorAll(".nav-item")
                 .forEach(item => {
@@ -1827,10 +1811,6 @@
                 });
 
 
-            /*
-             * Добавляем active
-             */
-
             if (element) {
 
                 element.classList.add(
@@ -1839,10 +1819,6 @@
 
             }
 
-
-            /*
-             * Вибрация Telegram
-             */
 
             if (
                 tg &&
@@ -1857,17 +1833,11 @@
         }
 
 
-
         /* =====================================================
            ОТКРЫТИЕ ИГРЫ
         ===================================================== */
 
         function openGame(game) {
-
-
-            /*
-             * Вибрация
-             */
 
             if (
                 tg &&
@@ -1887,20 +1857,7 @@
                 game
             );
 
-
-            /*
-             * ПОТОМ ЗДЕСЬ МОЖНО
-             * ПОДКЛЮЧИТЬ ИГРЫ.
-             *
-             * Например:
-             *
-             * if (game === "plinko") {
-             *     ...
-             * }
-             */
-
         }
-
 
 
         /* =====================================================
@@ -1908,7 +1865,6 @@
         ===================================================== */
 
         function addBalance() {
-
 
             if (
                 tg &&
@@ -1927,16 +1883,10 @@
                 "Открыть пополнение"
             );
 
-
-            /*
-             * Здесь потом подключим
-             * оплату / пополнение VIR.
-             */
-
         }
 
     </script>
 
 </body>
 
-                    </html>
+    </html>
