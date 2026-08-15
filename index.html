@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>VIR CASINO WEB APP (SECURE)</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root { --bg: #090d16; --card-bg: #111827; --gold: #facc15; --green: #22c55e; --red: #ef4444; --text: #f8fafc; }
+        body { background-color: var(--bg); color: var(--text); font-family: sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+        .header { width: 100%; display: flex; justify-content: space-between; align-items: center; background: #1e1b4b; padding: 12px 16px; border-radius: 16px; box-sizing: border-box; }
+        .balance { font-size: 18px; font-weight: 900; color: var(--gold); }
+        .nav-tabs { display: flex; gap: 6px; width: 100%; margin-top: 10px; }
+        .tab-btn { flex: 1; padding: 10px 4px; background: #1e293b; border: none; color: #fff; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .game-card { width: 100%; background: var(--card-bg); border-radius: 20px; padding: 14px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; margin-top: 10px; }
+        .bet-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #374151; background: #030712; color: #fff; font-size: 15px; text-align: center; box-sizing: border-box; }
+        .action-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; background: var(--green); color: white; font-size: 16px; font-weight: 900; cursor: pointer; margin-top: 10px; }
+        .slots-box { display: flex; gap: 8px; background: #030712; padding: 15px; border-radius: 16px; margin: 15px 0; }
+        .slot-reel { font-size: 45px; width: 60px; height: 70px; display: flex; align-items: center; justify-content: center; background: #111827; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <span id="user-name">👤 Игрок</span>
+        <div class="balance">💰 <span id="user-balance">0</span> VIR</div>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="tab-btn" onclick="switchTab('slots')">🎰 Слоты</button>
+        <button class="tab-btn" onclick="switchTab('coin')">🪙 Монета</button>
+    </div>
+
+    <!-- SLOTS -->
+    <div id="slots-game" class="game-card">
+        <div class="slots-box">
+            <div class="slot-reel" id="s1">7️⃣</div>
+            <div class="slot-reel" id="s2">🍋</div>
+            <div class="slot-reel" id="s3">🍇</div>
+        </div>
+        <input type="number" id="slots-bet" class="bet-input" value="100">
+        <button class="action-btn" id="slots-btn" onclick="spinSlotsServer()">Крутить (Сервер) 🎰</button>
+    </div>
+
+    <!-- COIN -->
+    <div id="coin-game" class="game-card" style="display:none;">
+        <div style="font-size: 80px; margin: 10px;" id="coin-icon">🪙</div>
+        <input type="number" id="coin-bet" class="bet-input" value="100">
+        <div style="display:flex; gap: 8px; width: 100%;">
+            <button class="action-btn" onclick="flipCoinServer('орёл')">🪙 Орёл</button>
+            <button class="action-btn" style="background:#0284c7;" onclick="flipCoinServer('решка')">👑 Решка</button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        // Адрес вашего FastAPI бэкенда
+        const API_URL = "https://your-domain-or-ngrok.com"; 
+
+        // Все запросы содержат заголовок X-Init-Data для валидации подписи Telegram
+        async function apiRequest(endpoint, method = 'GET', body = null) {
+            const headers = {
+                'Content-Type': 'application/json',
+                'X-Init-Data': tg.initData || ''
+            };
+            const config = { method, headers };
+            if (body) config.body = JSON.stringify(body);
+
+            const res = await fetch(API_URL + endpoint, config);
+            if (!res.ok) {
+                const err = await res.json();
+                alert('Ошибка: ' + (err.detail || 'Ошибка сервера'));
+                return null;
+            }
+            return await res.json();
+        }
+
+        // Загрузка профиля и НАСТОЯЩЕГО баланса с сервера
+        async function loadProfile() {
+            const data = await apiRequest('/api/profile');
+            if (data) {
+                document.getElementById('user-balance').innerText = data.balance;
+                document.getElementById('user-name').innerText = '👤 ' + (data.info.first_name || 'Игрок');
+            }
+        }
+        loadProfile();
+
+        function switchTab(tab) {
+            document.getElementById('slots-game').style.display = tab === 'slots' ? 'flex' : 'none';
+            document.getElementById('coin-game').style.display = tab === 'coin' ? 'flex' : 'none';
+        }
+
+        // Безопасные Слоты
+        async function spinSlotsServer() {
+            const bet = parseInt(document.getElementById('slots-bet').value);
+            const btn = document.getElementById('slots-btn');
+            btn.disabled = true;
+
+            // Анимация вращения во время ожидания ответа сервера
+            let interval = setInterval(() => {
+                const items = ['7️⃣', '🍋', '🍒', '🍇'];
+                document.getElementById('s1').innerText = items[Math.floor(Math.random()*4)];
+                document.getElementById('s2').innerText = items[Math.floor(Math.random()*4)];
+                document.getElementById('s3').innerText = items[Math.floor(Math.random()*4)];
+            }, 80);
+
+            const data = await apiRequest('/api/games/slots', 'POST', { bet });
+            
+            clearInterval(interval);
+            btn.disabled = false;
+
+            if (data) {
+                // Сервер вернул финальный результат
+                document.getElementById('s1').innerText = data.reels[0];
+                document.getElementById('s2').innerText = data.reels[1];
+                document.getElementById('s3').innerText = data.reels[2];
+                document.getElementById('user-balance').innerText = data.balance;
+
+                if (data.win > 0) alert(`🎉 Выигрыш: +${data.win} VIR`);
+                else alert('❌ Неповезло!');
+            }
+        }
+
+        // Безопасная Монетка
+        async function flipCoinServer(choice) {
+            const bet = parseInt(document.getElementById('coin-bet').value);
+            const data = await apiRequest('/api/games/coin', 'POST', { bet, choice });
+
+            if (data) {
+                document.getElementById('coin-icon').innerText = data.result === 'орёл' ? '🪙' : '👑';
+                document.getElementById('user-balance').innerText = data.balance;
+
+                if (data.win > 0) alert(`🎉 Угадал! +${data.win} VIR`);
+                else alert(`❌ Выпал ${data.result}`);
+            }
+        }
+    </script>
+</body>
+</html>
