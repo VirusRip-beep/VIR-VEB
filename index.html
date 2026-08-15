@@ -17,10 +17,6 @@
 
     <style>
 
-        /* =====================================================
-           ОСНОВА
-        ===================================================== */
-
         :root {
             --bg: #020305;
             --panel: #080b10;
@@ -29,13 +25,13 @@
             --gold-light: #ffd85a;
 
             --purple: #8b3cff;
-            --blue: #168cff;
-            --green: #46d83c;
-            --red: #ff3b22;
-
             --muted: #69717c;
         }
 
+
+        /* =====================================================
+           RESET
+        ===================================================== */
 
         * {
             box-sizing: border-box;
@@ -71,7 +67,7 @@
             background:
                 radial-gradient(
                     circle at 50% 10%,
-                    rgba(25, 35, 55, .30),
+                    rgba(25,35,55,.30),
                     transparent 43%
                 ),
                 #020305;
@@ -89,6 +85,12 @@
                     82px +
                     env(safe-area-inset-bottom)
                 );
+        }
+
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
         }
 
 
@@ -135,8 +137,8 @@
             background:
                 linear-gradient(
                     145deg,
-                    rgba(20, 24, 31, .97),
-                    rgba(5, 7, 11, .97)
+                    rgba(20,24,31,.97),
+                    rgba(5,7,11,.97)
                 );
 
             border:
@@ -207,14 +209,12 @@
 
             font-weight: 900;
 
-            letter-spacing: .2px;
-
             color: #fff;
         }
 
 
         /* =====================================================
-           ЛОГО
+           LOGO
         ===================================================== */
 
         .logo {
@@ -250,7 +250,6 @@
                 );
 
             -webkit-background-clip: text;
-
             background-clip: text;
 
             color: transparent;
@@ -304,7 +303,7 @@
 
 
         /* =====================================================
-           БАЛАНС
+           BALANCE
         ===================================================== */
 
         .balance-box {
@@ -314,14 +313,14 @@
 
             align-items: center;
 
-            gap: 6px;
+            gap: 8px;
 
             height: 45px;
 
-            min-width: 104px;
+            min-width: 100px;
 
             padding:
-                5px 6px;
+                5px 7px;
 
             background:
                 linear-gradient(
@@ -342,43 +341,12 @@
 
                 inset 0 0 10px
                 rgba(255,190,40,.025);
+
+            cursor: pointer;
         }
 
 
-        .coin {
-            width: 25px;
-            height: 25px;
-
-            flex-shrink: 0;
-
-            border-radius: 50%;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            background:
-                radial-gradient(
-                    circle at 35% 30%,
-                    #ffd45d,
-                    #bb710d 55%,
-                    #6e3905
-                );
-
-            border:
-                2px solid #d7971c;
-
-            color: #5c3100;
-
-            font-size: 13px;
-
-            font-weight: 900;
-
-            box-shadow:
-                0 0 7px
-                rgba(255,180,40,.25);
-        }
+        /* Монета удалена */
 
 
         .balance-info {
@@ -431,19 +399,13 @@
 
             font-size: 21px;
 
-            font-weight: 300;
-
             background:
                 rgba(80,30,160,.08);
-
-            box-shadow:
-                inset 0 0 10px
-                rgba(140,50,255,.08);
         }
 
 
         /* =====================================================
-           СТРАНИЦЫ
+           PAGES
         ===================================================== */
 
         .page {
@@ -478,7 +440,7 @@
 
 
         /* =====================================================
-           ИГРЫ
+           GAMES
         ===================================================== */
 
         .games-grid {
@@ -487,13 +449,10 @@
             display: grid;
 
             grid-template-columns:
-                repeat(
-                    2,
-                    minmax(0, 1fr)
-                );
+                repeat(2, minmax(0, 1fr));
 
             column-gap: 8px;
-            row-gap: 9px;
+            row-gap: 8px;
 
             padding:
                 0 2px;
@@ -506,11 +465,10 @@
             width: 100%;
 
             /*
-             * Соотношение карточек
-             * для вертикального мобильного интерфейса.
+             * Все карточки имеют абсолютно
+             * одинаковую геометрию.
              */
-            aspect-ratio:
-                1.19 / 1;
+            aspect-ratio: 1.16 / 1;
 
             overflow: hidden;
 
@@ -531,6 +489,8 @@
             transform:
                 translateZ(0);
 
+            isolation: isolate;
+
             transition:
                 transform .12s ease,
                 filter .12s ease;
@@ -544,12 +504,13 @@
 
             inset: 0;
 
+            z-index: 2;
+
             pointer-events: none;
 
             border-radius: inherit;
 
             box-shadow:
-
                 inset
                 0 0 0 1px
                 rgba(255,255,255,.04),
@@ -561,21 +522,25 @@
 
 
         .game-card img {
+            position: absolute;
+
+            inset: 0;
+
             width: 100%;
             height: 100%;
 
             display: block;
 
+            /*
+             * Все картинки заполняют
+             * абсолютно одинаковую область.
+             */
             object-fit: cover;
 
             object-position: center;
 
             transform:
                 scale(1.001);
-
-            transition:
-                transform .15s ease,
-                filter .15s ease;
         }
 
 
@@ -588,12 +553,6 @@
         }
 
 
-        .game-card:active img {
-            transform:
-                scale(1.015);
-        }
-
-
         /* =====================================================
            CONTENT
         ===================================================== */
@@ -602,7 +561,7 @@
             margin:
                 5px 2px;
 
-            padding: 18px;
+            padding: 17px;
 
             background:
                 linear-gradient(
@@ -638,36 +597,221 @@
         }
 
 
-        .info-row {
-            display: flex;
+        /* =====================================================
+           PROFILE ROWS
+        ===================================================== */
 
-            justify-content:
-                space-between;
+        .profile-row {
+            display: grid;
 
-            padding: 13px 0;
+            grid-template-columns:
+                90px 1fr;
+
+            align-items: center;
+
+            gap: 10px;
+
+            min-height: 43px;
 
             border-bottom:
                 1px solid
                 rgba(255,255,255,.06);
 
             font-size: 13px;
-
-            color: #7e858f;
         }
 
 
-        .info-row:last-child {
+        .profile-row:last-of-type {
             border-bottom: 0;
         }
 
 
-        .info-row b {
-            color: white;
+        .profile-label {
+            color: #737b86;
+
+            font-weight: 700;
+        }
+
+
+        .profile-value {
+            color: #fff;
+
+            font-weight: 800;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
         }
 
 
         /* =====================================================
-           НИЖНЕЕ МЕНЮ
+           BUTTONS
+        ===================================================== */
+
+        .action-button {
+            width: 100%;
+
+            min-height: 44px;
+
+            margin-top: 10px;
+
+            border: 1px solid
+                rgba(255,255,255,.10);
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #121720,
+                    #080b10
+                );
+
+            color: #fff;
+
+            font-size: 12px;
+
+            font-weight: 900;
+
+            cursor: pointer;
+
+            transition:
+                transform .12s ease,
+                filter .12s ease,
+                border-color .12s ease;
+        }
+
+
+        .action-button:active {
+            transform:
+                scale(.97);
+
+            filter:
+                brightness(.8);
+        }
+
+
+        .promo-button {
+            border-color:
+                rgba(139,60,255,.45);
+
+            color:
+                #c08cff;
+        }
+
+
+        .bonus-button {
+            border-color:
+                rgba(233,170,39,.40);
+
+            color:
+                #f1c45a;
+        }
+
+
+        .support-button {
+            border-color:
+                rgba(70,216,60,.35);
+
+            color:
+                #72e86a;
+        }
+
+
+        /* =====================================================
+           TOP
+        ===================================================== */
+
+        .leaderboard-status {
+            text-align: center;
+
+            padding: 18px 5px;
+
+            color: #69717c;
+
+            font-size: 12px;
+        }
+
+
+        .leaderboard-row {
+            display: grid;
+
+            grid-template-columns:
+                38px 1fr auto;
+
+            align-items: center;
+
+            gap: 8px;
+
+            min-height: 51px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.06);
+        }
+
+
+        .leaderboard-row:last-child {
+            border-bottom: 0;
+        }
+
+
+        .leaderboard-place {
+            color: #e9aa27;
+
+            font-weight: 900;
+
+            text-align: center;
+        }
+
+
+        .leaderboard-name {
+            min-width: 0;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+            font-weight: 800;
+
+            color: #fff;
+        }
+
+
+        .leaderboard-balance {
+            color: #e9aa27;
+
+            font-size: 12px;
+
+            font-weight: 900;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           SUPPORT
+        ===================================================== */
+
+        .support-text {
+            text-align: center;
+
+            color: #777f89;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            margin-bottom: 5px;
+        }
+
+
+        /* =====================================================
+           BOTTOM NAV
         ===================================================== */
 
         .bottom-nav {
@@ -807,7 +951,7 @@
 
 
         /* =====================================================
-           БОЛЬШИЕ ЭКРАНЫ
+           DESKTOP / 1080x1920
         ===================================================== */
 
         @media (min-width: 600px) {
@@ -824,7 +968,7 @@
 
 
         /* =====================================================
-           МАЛЕНЬКИЕ ТЕЛЕФОНЫ
+           SMALL PHONES
         ===================================================== */
 
         @media (max-width: 360px) {
@@ -865,14 +1009,6 @@
                 height: 43px;
 
                 padding: 5px;
-
-                gap: 5px;
-            }
-
-
-            .plus {
-                width: 24px;
-                height: 24px;
             }
 
 
@@ -886,6 +1022,9 @@
 
 
             .game-card {
+                aspect-ratio:
+                    1.14 / 1;
+
                 border-radius: 8px;
             }
 
@@ -930,11 +1069,17 @@
                 height: 24px;
             }
 
+
+            .profile-row {
+                grid-template-columns:
+                    80px 1fr;
+            }
+
         }
 
 
         /* =====================================================
-           ОЧЕНЬ УЗКИЕ ЭКРАНЫ
+           VERY SMALL
         ===================================================== */
 
         @media (max-width: 330px) {
@@ -951,12 +1096,6 @@
 
             .balance-box {
                 min-width: 88px;
-            }
-
-
-            .coin {
-                width: 23px;
-                height: 23px;
             }
 
 
@@ -986,10 +1125,11 @@
 
 
     <!-- =====================================================
-         ШАПКА
+         HEADER
     ===================================================== -->
 
     <header class="header">
+
 
         <div class="user-box">
 
@@ -1000,13 +1140,14 @@
                 ☣
             </div>
 
+
             <div class="user-info">
 
                 <div
                     class="user-name"
                     id="user-name"
                 >
-                    VIRUS
+                    NONE
                 </div>
 
             </div>
@@ -1032,24 +1173,22 @@
             onclick="addBalance()"
         >
 
-            <div class="coin">
-                ✦
-            </div>
-
             <div class="balance-info">
 
                 <div
                     class="balance"
                     id="bal"
                 >
-                    12 500
+                    120 000
                 </div>
+
 
                 <div class="currency">
                     VIR
                 </div>
 
             </div>
+
 
             <div class="plus">
                 +
@@ -1061,7 +1200,7 @@
 
 
     <!-- =====================================================
-         ГЛАВНАЯ
+         GAMES
     ===================================================== -->
 
     <main
@@ -1155,53 +1294,7 @@
 
 
     <!-- =====================================================
-         ПРОФИЛЬ
-    ===================================================== -->
-
-    <section
-        id="page-profile"
-        class="page"
-    >
-
-        <div class="content-box">
-
-            <div class="profile-title">
-                ПРОФИЛЬ
-            </div>
-
-
-            <div class="info-row">
-
-                <span>
-                    Игрок
-                </span>
-
-                <b id="prof-name">
-                    VIRUS
-                </b>
-
-            </div>
-
-
-            <div class="info-row">
-
-                <span>
-                    Баланс
-                </span>
-
-                <b id="prof-bal">
-                    12 500 VIR
-                </b>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         НАСТРОЙКИ
+         SETTINGS
     ===================================================== -->
 
     <section
@@ -1247,7 +1340,7 @@
 
 
     <!-- =====================================================
-         ТОП
+         TOP
     ===================================================== -->
 
     <section
@@ -1262,41 +1355,13 @@
             </div>
 
 
-            <div class="info-row">
+            <div
+                id="leaderboard"
+            >
 
-                <span>
-                    🥇 VIRUS
-                </span>
-
-                <b>
-                    125 000 VIR
-                </b>
-
-            </div>
-
-
-            <div class="info-row">
-
-                <span>
-                    🥈 PLAYER
-                </span>
-
-                <b>
-                    98 500 VIR
-                </b>
-
-            </div>
-
-
-            <div class="info-row">
-
-                <span>
-                    🥉 CASINO
-                </span>
-
-                <b>
-                    74 200 VIR
-                </b>
+                <div class="leaderboard-status">
+                    Загрузка игроков...
+                </div>
 
             </div>
 
@@ -1306,7 +1371,7 @@
 
 
     <!-- =====================================================
-         ПОМОЩЬ
+         HELP
     ===================================================== -->
 
     <section
@@ -1321,17 +1386,18 @@
             </div>
 
 
-            <div class="info-row">
-
-                <span>
-                    Поддержка
-                </span>
-
-                <b>
-                    @support
-                </b>
-
+            <div class="support-text">
+                Если у тебя возникли вопросы
+                или проблемы — напиши в поддержку.
             </div>
+
+
+            <button
+                class="action-button support-button"
+                onclick="openSupport()"
+            >
+                Написать поддержку
+            </button>
 
         </div>
 
@@ -1339,17 +1405,120 @@
 
 
     <!-- =====================================================
-         НИЖНЕЕ МЕНЮ
+         PROFILE
+    ===================================================== -->
+
+    <section
+        id="page-profile"
+        class="page"
+    >
+
+        <div class="content-box">
+
+            <div class="profile-title">
+                ПРОФИЛЬ
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Имя
+                </span>
+
+                <b
+                    class="profile-value"
+                    id="prof-name"
+                >
+                    NONE
+                </b>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Айди
+                </span>
+
+                <b
+                    class="profile-value"
+                    id="prof-id"
+                >
+                    NONE
+                </b>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Юзернейм
+                </span>
+
+                <b
+                    class="profile-value"
+                    id="prof-username"
+                >
+                    NONE
+                </b>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Баланс
+                </span>
+
+                <b
+                    class="profile-value"
+                    id="prof-bal"
+                >
+                    120 000 VIR
+                </b>
+
+            </div>
+
+
+            <button
+                class="action-button promo-button"
+                onclick="activatePromo()"
+            >
+                Активировать промокод
+            </button>
+
+
+            <button
+                class="action-button bonus-button"
+                onclick="dailyBonus()"
+            >
+                Ежедневный бонус
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         BOTTOM NAV
+         ИГРЫ / НАСТРОЙКИ / ТОП / ПОМОЩЬ / ПРОФИЛЬ
     ===================================================== -->
 
     <nav class="bottom-nav">
 
 
+        <!-- ИГРЫ -->
+
         <div
-            class="nav-item"
+            class="nav-item active"
             onclick="
                 showPage(
-                    'page-profile',
+                    'page-lobby',
                     this
                 )
             "
@@ -1363,21 +1532,30 @@
                     stroke-width="1.7"
                 >
 
-                    <circle
-                        cx="12"
-                        cy="8"
-                        r="3.5"
+                    <rect
+                        x="3"
+                        y="4"
+                        width="18"
+                        height="16"
+                        rx="3"
                     />
 
                     <path
-                        d="
-                            M5 20
-                            c.8-3.6
-                            3-5.5
-                            7-5.5
-                            s6.2 1.9
-                            7 5.5
-                        "
+                        d="M8 10v5" />
+
+                    <path
+                        d="M5.5 12.5h5" />
+
+                    <circle
+                        cx="16"
+                        cy="11"
+                        r="1"
+                    />
+
+                    <circle
+                        cx="18"
+                        cy="14"
+                        r="1"
                     />
 
                 </svg>
@@ -1386,11 +1564,13 @@
 
 
             <span class="nav-label">
-                Профиль
+                Игры
             </span>
 
         </div>
 
+
+        <!-- НАСТРОЙКИ -->
 
         <div
             class="nav-item"
@@ -1490,6 +1670,8 @@
         </div>
 
 
+        <!-- ТОП -->
+
         <div
             class="nav-item"
             onclick="
@@ -1513,9 +1695,7 @@
                     />
 
                     <path
-                        d="
-                            M9 20v-3h6v3
-                        "
+                        d="M9 20v-3h6v3"
                     />
 
                     <path
@@ -1551,6 +1731,8 @@
 
         </div>
 
+
+        <!-- ПОМОЩЬ -->
 
         <div
             class="nav-item"
@@ -1603,11 +1785,13 @@
         </div>
 
 
+        <!-- ПРОФИЛЬ -->
+
         <div
-            class="nav-item active"
+            class="nav-item"
             onclick="
                 showPage(
-                    'page-lobby',
+                    'page-profile',
                     this
                 )
             "
@@ -1621,34 +1805,21 @@
                     stroke-width="1.7"
                 >
 
-                    <path
-                        d="M5 7h14"
-                    />
-
-                    <path
-                        d="M5 12h14"
+                    <circle
+                        cx="12"
+                        cy="8"
+                        r="3.5"
                     />
 
                     <path
-                        d="M5 17h14"
-                    />
-
-                    <circle
-                        cx="9"
-                        cy="7"
-                        r="1.5"
-                    />
-
-                    <circle
-                        cx="15"
-                        cy="12"
-                        r="1.5"
-                    />
-
-                    <circle
-                        cx="11"
-                        cy="17"
-                        r="1.5"
+                        d="
+                            M5 20
+                            c.8-3.6
+                            3-5.5
+                            7-5.5
+                            s6.2 1.9
+                            7 5.5
+                        "
                     />
 
                 </svg>
@@ -1657,7 +1828,7 @@
 
 
             <span class="nav-label">
-                Ещё
+                Профиль
             </span>
 
         </div>
@@ -1671,12 +1842,230 @@
 
     <script>
 
+        /* =====================================================
+           TELEGRAM
+        ===================================================== */
+
         const tg =
             window.Telegram?.WebApp;
 
 
+        /*
+         * Единый баланс.
+         *
+         * Пока здесь 120000.
+         * В дальнейшем его лучше получать
+         * с сервера через /api/auth.
+         */
+
+        let balance = 120000;
+
+
+        /*
+         * Данные Telegram пользователя.
+         */
+
+        let telegramUser = null;
+
+
         /* =====================================================
-           TELEGRAM
+           ФОРМАТ БАЛАНСА
+        ===================================================== */
+
+        function formatBalance(value) {
+
+            value = Number(value) || 0;
+
+
+            /*
+             * Миллионы:
+             *
+             * 1 000 000 -> 1кк
+             * 7 340 000 -> 7.34кк
+             */
+
+            if (value >= 1000000) {
+
+                let millions =
+                    value / 1000000;
+
+
+                let result =
+                    millions
+                        .toFixed(2)
+                        .replace(
+                            /\.00$/,
+                            ""
+                        )
+                        .replace(
+                            /(\.\d)0$/,
+                            "$1"
+                        );
+
+
+                return result + "кк";
+            }
+
+
+            /*
+             * Обычные числа:
+             *
+             * 120000 -> 120 000
+             */
+
+            return Math.floor(value)
+                .toLocaleString(
+                    "ru-RU"
+                )
+                .replace(
+                    /\u00A0/g,
+                    " "
+                );
+        }
+
+
+        function updateBalanceUI() {
+
+            const formatted =
+                formatBalance(balance);
+
+
+            const balanceElement =
+                document.getElementById(
+                    "bal"
+                );
+
+
+            const profileBalance =
+                document.getElementById(
+                    "prof-bal"
+                );
+
+
+            if (balanceElement) {
+
+                balanceElement.textContent =
+                    formatted;
+            }
+
+
+            if (profileBalance) {
+
+                profileBalance.textContent =
+                    formatted + " VIR";
+            }
+
+        }
+
+
+        /* =====================================================
+           TELEGRAM USER
+        ===================================================== */
+
+        function setNoneUser() {
+
+            telegramUser = null;
+
+
+            document
+                .getElementById("user-name")
+                .textContent = "NONE";
+
+
+            document
+                .getElementById("prof-name")
+                .textContent = "NONE";
+
+
+            document
+                .getElementById("prof-id")
+                .textContent = "NONE";
+
+
+            document
+                .getElementById("prof-username")
+                .textContent = "NONE";
+
+
+            const avatar =
+                document.getElementById(
+                    "user-avatar"
+                );
+
+
+            avatar.innerHTML = "☣";
+
+            avatar.style.backgroundImage =
+                "none";
+
+        }
+
+
+        function setTelegramUser(user) {
+
+            if (!user) {
+
+                setNoneUser();
+
+                return;
+            }
+
+
+            telegramUser = user;
+
+
+            const name =
+                user.first_name ||
+                user.username ||
+                "NONE";
+
+
+            document
+                .getElementById("user-name")
+                .textContent = name;
+
+
+            document
+                .getElementById("prof-name")
+                .textContent = name;
+
+
+            document
+                .getElementById("prof-id")
+                .textContent =
+                    user.id ??
+                    "NONE";
+
+
+            document
+                .getElementById("prof-username")
+                .textContent =
+                    user.username
+                        ? "@" + user.username
+                        : "NONE";
+
+
+            const avatar =
+                document.getElementById(
+                    "user-avatar"
+                );
+
+
+            if (user.photo_url) {
+
+                avatar.innerHTML = "";
+
+
+                avatar.style.backgroundImage =
+                    `url("${user.photo_url}")`;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           TELEGRAM INIT
         ===================================================== */
 
         if (tg) {
@@ -1712,55 +2101,115 @@
 
             if (user) {
 
-                const name =
-                    user.first_name ||
-                    user.username ||
-                    "VIRUS";
+                setTelegramUser(user);
+
+            } else {
+
+                setNoneUser();
+
+            }
+
+        } else {
+
+            /*
+             * Открыли обычную страницу
+             * через Chrome / браузер.
+             */
+
+            setNoneUser();
+
+        }
 
 
-                document
-                    .getElementById(
-                        "user-name"
-                    )
-                    .textContent = name;
+        /* =====================================================
+           АВТОРИЗАЦИЯ НА СЕРВЕРЕ
+        ===================================================== */
 
+        if (
+            tg &&
+            tg.initData
+        ) {
 
-                document
-                    .getElementById(
-                        "prof-name"
-                    )
-                    .textContent = name;
+            fetch(
+                "/api/auth",
+                {
+                    method: "POST",
 
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                const avatar =
-                    document.getElementById(
-                        "user-avatar"
+                    body: JSON.stringify({
+                        initData:
+                            tg.initData
+                    })
+                }
+            )
+
+            .then(res =>
+                res.json()
+            )
+
+            .then(data => {
+
+                if (!data.ok) {
+
+                    console.log(
+                        "Авторизация не подтверждена"
                     );
 
-
-                if (user.photo_url) {
-
-                    avatar.innerHTML = "";
+                    return;
+                }
 
 
-                    avatar.style.backgroundImage =
-                        `url("${user.photo_url}")`;
+                /*
+                 * Если сервер вернул
+                 * пользователя.
+                 */
 
+                if (data.user) {
 
-                    avatar.style.backgroundSize =
-                        "cover";
-
-
-                    avatar.style.backgroundPosition =
-                        "center";
-
-
-                    avatar.style.backgroundRepeat =
-                        "no-repeat";
+                    setTelegramUser(
+                        data.user
+                    );
 
                 }
 
-            }
+
+                /*
+                 * Если сервер вернул баланс,
+                 * используем именно его.
+                 */
+
+                if (
+                    typeof data.balance ===
+                    "number"
+                ) {
+
+                    balance =
+                        data.balance;
+
+                    updateBalanceUI();
+
+                }
+
+
+                console.log(
+                    "Telegram user:",
+                    data.user
+                );
+
+            })
+
+            .catch(error => {
+
+                console.log(
+                    "Auth error:",
+                    error
+                );
+
+            });
 
         }
 
@@ -1830,6 +2279,20 @@
 
             }
 
+
+            /*
+             * При открытии ТОПа
+             * обновляем список игроков.
+             */
+
+            if (
+                pageId === "page-top"
+            ) {
+
+                loadLeaderboard();
+
+            }
+
         }
 
 
@@ -1884,6 +2347,326 @@
             );
 
         }
+
+
+        /* =====================================================
+           ПОДДЕРЖКА
+        ===================================================== */
+
+        function openSupport() {
+
+            const url =
+                "https://t.me/VirusRip";
+
+
+            if (tg) {
+
+                try {
+
+                    tg.openTelegramLink(
+                        url
+                    );
+
+                    return;
+
+                } catch (error) {
+
+                    console.log(
+                        "Telegram link error:",
+                        error
+                    );
+
+                }
+
+            }
+
+
+            window.open(
+                url,
+                "_blank"
+            );
+
+        }
+
+
+        /* =====================================================
+           ПРОМОКОД
+        ===================================================== */
+
+        function activatePromo() {
+
+            if (
+                tg &&
+                tg.HapticFeedback
+            ) {
+
+                tg.HapticFeedback
+                    .impactOccurred(
+                        "light"
+                    );
+
+            }
+
+
+            const code =
+                prompt(
+                    "Введите промокод:"
+                );
+
+
+            if (!code) {
+
+                return;
+            }
+
+
+            console.log(
+                "Promo code:",
+                code
+            );
+
+        }
+
+
+        /* =====================================================
+           ЕЖЕДНЕВНЫЙ БОНУС
+        ===================================================== */
+
+        function dailyBonus() {
+
+            if (
+                tg &&
+                tg.HapticFeedback
+            ) {
+
+                tg.HapticFeedback
+                    .impactOccurred(
+                        "medium"
+                    );
+
+            }
+
+
+            console.log(
+                "Ежедневный бонус"
+            );
+
+        }
+
+
+        /* =====================================================
+           TOP / LEADERBOARD
+        ===================================================== */
+
+        async function loadLeaderboard() {
+
+            const container =
+                document.getElementById(
+                    "leaderboard"
+                );
+
+
+            if (!container) {
+
+                return;
+            }
+
+
+            container.innerHTML = `
+                <div class="leaderboard-status">
+                    Загрузка игроков...
+                </div>
+            `;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/leaderboard",
+                        {
+                            method: "GET",
+                            headers: {
+                                "Accept":
+                                    "application/json"
+                            }
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Leaderboard HTTP " +
+                        response.status
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                /*
+                 * Ожидается:
+                 *
+                 * {
+                 *   "ok": true,
+                 *   "players": [
+                 *      {
+                 *        "id": 123,
+                 *        "first_name": "Name",
+                 *        "username": "username",
+                 *        "balance": 500000
+                 *      }
+                 *   ]
+                 * }
+                 */
+
+
+                if (
+                    !data.ok ||
+                    !Array.isArray(
+                        data.players
+                    )
+                ) {
+
+                    throw new Error(
+                        "Неверный формат ТОПа"
+                    );
+
+                }
+
+
+                if (
+                    data.players.length === 0
+                ) {
+
+                    container.innerHTML = `
+                        <div class="leaderboard-status">
+                            Пока нет игроков в ТОПе.
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                container.innerHTML =
+                    data.players
+                        .slice(0, 20)
+                        .map(
+                            (player, index) => {
+
+                                const playerName =
+                                    player.first_name ||
+                                    (
+                                        player.username
+                                            ? "@" +
+                                              player.username
+                                            : "NONE"
+                                    );
+
+
+                                const playerBalance =
+                                    formatBalance(
+                                        player.balance
+                                    );
+
+
+                                return `
+                                    <div
+                                        class="leaderboard-row"
+                                    >
+
+                                        <div
+                                            class="leaderboard-place"
+                                        >
+                                            ${index + 1}
+                                        </div>
+
+
+                                        <div
+                                            class="leaderboard-name"
+                                        >
+                                            ${escapeHtml(
+                                                playerName
+                                            )}
+                                        </div>
+
+
+                                        <div
+                                            class="leaderboard-balance"
+                                        >
+                                            ${playerBalance}
+                                            VIR
+                                        </div>
+
+                                    </div>
+                                `;
+
+                            }
+                        )
+                        .join("");
+
+            }
+
+            catch (error) {
+
+                console.log(
+                    "Leaderboard error:",
+                    error
+                );
+
+
+                container.innerHTML = `
+                    <div class="leaderboard-status">
+                        Не удалось загрузить ТОП игроков.
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           БЕЗОПАСНЫЙ ТЕКСТ
+        ===================================================== */
+
+        function escapeHtml(value) {
+
+            return String(value ?? "")
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        /* =====================================================
+           START
+        ===================================================== */
+
+        updateBalanceUI();
 
     </script>
 
