@@ -11,6 +11,7 @@
             --bg-color: #020305;
             --text-gold: #ffcf40;
             --text-dim: #6c7a89;
+            --accent: #a855f7;
         }
 
         * {
@@ -24,488 +25,178 @@
 
         body {
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 50% 20%, rgba(15, 25, 45, 0.5) 0%, transparent 70%),
-                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-            background-size: 100% 100%, 20px 20px, 20px 20px;
+            background-image: radial-gradient(circle at 50% 20%, rgba(15, 25, 45, 0.5) 0%, transparent 70%);
             color: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 12px 10px 12px 10px;
-            overflow-x: hidden;
+            padding: 12px 10px;
         }
 
-        /* === ШАПКА === */
+        /* --- ШАПКА --- */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
-        .user-block {
+        .user-block, .balance-block {
+            background: rgba(12, 16, 24, 0.95);
+            padding: 6px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(12, 16, 24, 0.95);
-            padding: 6px 12px 6px 6px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.08);
         }
 
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            background: #080c10;
-            border: 1px solid #22c55e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
+        .user-avatar { width: 32px; height: 32px; border-radius: 6px; background: #080c10; display: flex; align-items: center; justify-content: center; }
+        .user-name { font-weight: 800; font-size: 11px; }
+        .user-role { font-size: 9px; color: var(--text-dim); }
 
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .brand-logo { text-align: center; }
+        .brand-title { font-size: 16px; font-weight: 900; letter-spacing: 1px; color: var(--text-gold); }
+        .brand-subtitle { font-size: 7px; color: var(--text-dim); text-transform: uppercase; }
 
-        .user-info {
-            display: flex;
-            flex-direction: column;
-        }
+        .balance-val { font-weight: 800; font-size: 12px; }
+        .balance-currency { font-size: 8px; color: var(--text-dim); }
 
-        .user-name {
-            font-weight: 800;
-            font-size: 12px;
-            color: #fff;
-        }
+        /* --- СЕТКА ИГР (ИСПРАВЛЕННАЯ 16:9) --- */
+        .page { display: none; }
+        .page.active { display: block; }
 
-        .user-role {
-            font-size: 9px;
-            color: var(--text-dim);
-        }
-
-        .brand-logo {
-            text-align: center;
-        }
-
-        .brand-crown {
-            font-size: 13px;
-            color: var(--text-gold);
-            line-height: 1;
-        }
-
-        .brand-title {
-            font-size: 19px;
-            font-weight: 900;
-            letter-spacing: 1.5px;
-            background: linear-gradient(180deg, #ffffff 0%, var(--text-gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .brand-subtitle {
-            font-size: 8px;
-            letter-spacing: 2px;
-            color: var(--text-dim);
-            margin-top: -2px;
-        }
-
-        .balance-block {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(12, 16, 24, 0.95);
-            padding: 6px 8px 6px 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .balance-val {
-            font-weight: 800;
-            font-size: 13px;
-            color: #fff;
-            text-align: right;
-        }
-
-        .balance-currency {
-            font-size: 8px;
-            color: var(--text-dim);
-            display: block;
-            margin-top: -2px;
-        }
-
-        .btn-add-balance {
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
-            background: linear-gradient(135deg, #6b21a8 0%, #3b0764 100%);
-            border: 1px solid #a855f7;
-            color: #fff;
-            font-size: 15px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        /* === ЭКРАНЫ === */
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        /* === СЕТКА КАРТОЧЕК === */
         .games-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 2px 0;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .game-card {
             position: relative;
             width: 100%;
-            aspect-ratio: 1.22;
-            border-radius: 12px;
+            aspect-ratio: 16 / 9; /* Ровные прямоугольники */
+            border-radius: 14px;
             overflow: hidden;
             cursor: pointer;
-            background-color: #030508;
-            border: 1px solid transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.15s ease;
+            border: 2px solid rgba(255,255,255,0.05);
+            transition: transform 0.2s, border 0.2s;
         }
 
-        .game-card:active {
-            transform: scale(0.96);
-        }
+        .game-card:active { transform: scale(0.96); }
 
         .game-card img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Картинка теперь влезает полностью без приближения! */
+            object-fit: cover; /* Идеальное заполнение */
             display: block;
         }
 
-        /* Обводки в точности под оригинал */
-        .card-plinko { border-color: rgba(37, 99, 235, 0.8); }
-        .card-slots  { border-color: rgba(217, 119, 6, 0.8); }
-        .card-wheel  { border-color: rgba(124, 58, 237, 0.8); }
-        .card-mines  { border-color: rgba(22, 163, 74, 0.8); }
-        .card-coin   { border-color: rgba(2, 132, 199, 0.8); }
-        .card-crash  { border-color: rgba(220, 38, 38, 0.8); }
-
-        /* === ВНУТРЕННИЕ СТРАНИЦЫ === */
+        /* --- КОНТЕНТ --- */
         .content-box {
             background: rgba(10, 14, 22, 0.95);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 14px;
             padding: 16px;
-            margin-top: 10px;
         }
 
-        .section-title {
-            font-size: 15px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            text-align: center;
-            color: var(--text-gold);
-            text-transform: uppercase;
-        }
+        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; }
 
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 12px;
-        }
-
-        /* === НИЖНЕЕ МЕНЮ (ПО РЕФЕРЕНСУ СПРАВА) === */
+        /* --- НИЖНЕЕ МЕНЮ --- */
         nav {
+            margin-top: auto;
             display: flex;
             justify-content: space-around;
-            align-items: center;
+            padding: 10px 0;
             background: rgba(4, 6, 10, 0.95);
             border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 8px 0 2px 0;
         }
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            color: var(--text-dim);
-            font-size: 8px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            flex: 1;
-        }
-
-        .nav-item.active {
-            color: #a855f7;
-        }
-
-        .nav-icon-hex {
-            width: 32px;
-            height: 32px;
-            clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
-            background: rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-        }
-
-        .nav-item.active .nav-icon-hex {
-            background: rgba(168, 85, 247, 0.2);
-            color: #a855f7;
-        }
-
-        /* МОДАЛКА */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.85);
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            padding: 20px;
-        }
-
-        .modal-body {
-            background: #0d121d;
-            border: 1px solid #a855f7;
-            padding: 18px;
-            border-radius: 14px;
-            width: 100%;
-            max-width: 280px;
-            text-align: center;
-        }
-
-        .input-bet {
-            width: 100%;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.15);
-            padding: 10px;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 13px;
-            text-align: center;
-            margin: 10px 0;
-            outline: none;
-        }
-
-        .btn-action {
-            width: 100%;
-            background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
-            color: #fff;
-            font-weight: 800;
-            border: none;
-            padding: 9px;
-            border-radius: 8px;
-            font-size: 12px;
-            cursor: pointer;
-        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-dim); font-size: 8px; font-weight: 700; cursor: pointer; }
+        .nav-item.active { color: var(--accent); }
+        .nav-icon { font-size: 18px; }
     </style>
 </head>
 <body>
 
-    <!-- ШАПКА -->
     <header>
         <div class="user-block">
-            <div class="user-avatar" id="avatar-container">
-                <span style="font-size:15px;">☣️</span>
-            </div>
-            <div class="user-info">
-                <span class="user-name" id="user-name">VIRUS</span>
-                <span class="user-role">Игрок</span>
+            <div class="user-avatar">☣️</div>
+            <div>
+                <div class="user-name" id="user-name">VIRUS</div>
+                <div class="user-role">Игрок</div>
             </div>
         </div>
-
         <div class="brand-logo">
-            <div class="brand-crown">👑</div>
             <div class="brand-title">VIRUS</div>
             <div class="brand-subtitle">CASINO</div>
         </div>
-
         <div class="balance-block">
-            <div>
-                <div class="balance-val" id="balance-val">12 500</div>
-                <span class="balance-currency">VIR</span>
-            </div>
-            <button class="btn-add-balance" onclick="openPromoModal()">+</button>
+            <div class="balance-val" id="bal">12 500</div>
+            <div class="balance-currency">VIR</div>
         </div>
     </header>
 
-    <!-- ВКЛАДКА 1: ХОЛЛ -->
+    <!-- ГЛАВНАЯ (ЛОББИ) -->
     <div id="page-lobby" class="page active">
         <div class="games-grid">
-            <div class="game-card card-plinko" onclick="openGame('PLINKO')">
-                <img src="https://i.ibb.co/JjLVCZ0w/1786809225235.jpg" alt="Plinko">
-            </div>
-            <div class="game-card card-slots" onclick="openGame('СЛОТЫ')">
-                <img src="https://i.ibb.co/8DHFnhZ6/1786809778900.jpg" alt="Slots">
-            </div>
-            <div class="game-card card-wheel" onclick="openGame('КОЛЕСО')">
-                <img src="https://i.ibb.co/0j4rs2WB/1786809906957.jpg" alt="Wheel">
-            </div>
-            <div class="game-card card-mines" onclick="openGame('МИНЫ')">
-                <img src="https://i.ibb.co/NR96zJH/1786810227620.jpg" alt="Mines">
-            </div>
-            <div class="game-card card-coin" onclick="openGame('МОНЕТА')">
-                <img src="https://i.ibb.co/0jz38B2x/1786812059917.jpg" alt="Coin">
-            </div>
-            <div class="game-card card-crash" onclick="openGame('CRASH')">
-                <img src="https://i.ibb.co/4ncgxRD2/1786810602933.jpg" alt="Crash">
-            </div>
+            <div class="game-card"><img src="https://i.ibb.co/JjLVCZ0w/1786809225235.jpg"></div>
+            <div class="game-card"><img src="https://i.ibb.co/8DHFnhZ6/1786809778900.jpg"></div>
+            <div class="game-card"><img src="https://i.ibb.co/0j4rs2WB/1786809906957.jpg"></div>
+            <div class="game-card"><img src="https://i.ibb.co/NR96zJH/1786810227620.jpg"></div>
+            <div class="game-card"><img src="https://i.ibb.co/0jz38B2x/1786812059917.jpg"></div>
+            <div class="game-card"><img src="https://i.ibb.co/4ncgxRD2/1786810602933.jpg"></div>
         </div>
     </div>
 
-    <!-- ВКЛАДКА ИГРЫ -->
-    <div id="page-game" class="page">
-        <div class="content-box" style="text-align: center;">
-            <button class="btn-action" style="width: auto; padding: 6px 12px; margin-bottom: 12px; background: #222;" onclick="showPage('page-lobby')">⬅️ В меню</button>
-            <h2 id="game-title" class="section-title">ИГРА</h2>
-            <p style="font-size:12px; color:var(--text-dim); margin: 20px 0;">Раздел игры подгружается...</p>
-        </div>
-    </div>
-
-    <!-- ВКЛАДКА 2: ПРОФИЛЬ -->
+    <!-- ПРОФИЛЬ -->
     <div id="page-profile" class="page">
         <div class="content-box">
-            <div class="section-title">Профиль</div>
+            <div style="text-align:center; margin-bottom:10px; font-weight:800; color:var(--text-gold);">ПРОФИЛЬ</div>
             <div class="info-row"><span>Игрок:</span><b id="prof-name">VIRUS</b></div>
-            <div class="info-row"><span>Баланс:</span><b id="prof-bal" style="color:var(--text-gold);">12 500 VIR</b></div>
-            <button class="btn-action" style="margin-top:12px;" onclick="openPromoModal()">Активировать Промокод</button>
+            <div class="info-row"><span>Баланс:</span><b id="prof-bal">12 500 VIR</b></div>
         </div>
     </div>
 
-    <!-- ВКЛАДКА 3: НАСТРОЙКИ -->
-    <div id="page-settings" class="page">
-        <div class="content-box">
-            <div class="section-title">Настройки</div>
-            <div class="info-row"><span>Звуки</span><b>ВКЛ</b></div>
-            <div class="info-row"><span>Анимации</span><b>ВКЛ</b></div>
-        </div>
-    </div>
-
-    <!-- ВКЛАДКА 4: ТОП -->
-    <div id="page-top" class="page">
-        <div class="content-box">
-            <div class="section-title">🏆 ТОП ИГРОКОВ</div>
-            <p style="text-align:center; font-size:12px; color:var(--text-dim); padding: 10px 0;">Загрузка списка лидеров...</p>
-        </div>
-    </div>
-
-    <!-- ВКЛАДКА 5: ПОМОЩЬ -->
-    <div id="page-help" class="page">
-        <div class="content-box">
-            <div class="section-title">Помощь</div>
-            <p style="font-size:12px; color:var(--text-dim); text-align:center; margin-bottom: 12px;">Служба поддержки пользователей.</p>
-            <button class="btn-action" onclick="alert('Поддержка: @support')">Написать</button>
-        </div>
-    </div>
-
-    <!-- НИЖНЕЕ МЕНЮ -->
     <nav>
-        <div class="nav-item" onclick="navTo('page-profile', this)">
-            <div class="nav-icon-hex">👤</div>
-            <span>Профиль</span>
+        <div class="nav-item" onclick="showPage('page-profile', this)">
+            <div class="nav-icon">👤</div><span>Профиль</span>
         </div>
-        <div class="nav-item" onclick="navTo('page-settings', this)">
-            <div class="nav-icon-hex">⚙️</div>
-            <span>Настройки</span>
+        <div class="nav-item" onclick="alert('Настройки пока в разработке')">
+            <div class="nav-icon">⚙️</div><span>Настройки</span>
         </div>
-        <div class="nav-item" onclick="navTo('page-top', this)">
-            <div class="nav-icon-hex">👑</div>
-            <span>ТОП</span>
+        <div class="nav-item" onclick="alert('Топ пуст')">
+            <div class="nav-icon">👑</div><span>ТОП</span>
         </div>
-        <div class="nav-item" onclick="navTo('page-help', this)">
-            <div class="nav-icon-hex">❓</div>
-            <span>Помощь</span>
+        <div class="nav-item" onclick="alert('Поддержка: @support')">
+            <div class="nav-icon">❓</div><span>Помощь</span>
         </div>
-        <div class="nav-item active" onclick="navTo('page-lobby', this)">
-            <div class="nav-icon-hex">🧩</div>
-            <span>Ещё</span>
+        <div class="nav-item active" onclick="showPage('page-lobby', this)">
+            <div class="nav-icon">🧩</div><span>Ещё</span>
         </div>
     </nav>
 
-    <!-- МОДАЛКА ПРОМОКОДА -->
-    <div id="promo-modal" class="modal">
-        <div class="modal-body">
-            <h3 style="color:#fff; margin-bottom: 6px; font-size: 14px;">🎟 Ввести промокод</h3>
-            <input type="text" id="promo-input" class="input-bet" placeholder="ПРОМОКОД" style="text-transform:uppercase;">
-            <div style="display:flex; gap:8px;">
-                <button class="btn-action" onclick="claimPromo()">ОК</button>
-                <button class="btn-action" style="background:#222;" onclick="closePromoModal()">Отмена</button>
-            </div>
-        </div>
-    </div>
-
     <script>
+        // Логика Telegram
         const tg = window.Telegram?.WebApp;
         if (tg) {
             tg.expand();
             if (tg.initDataUnsafe?.user) {
                 const u = tg.initDataUnsafe.user;
-                document.getElementById('user-name').innerText = u.first_name || 'VIRUS';
-                document.getElementById('prof-name').innerText = u.first_name || 'VIRUS';
-                if (u.photo_url) {
-                    document.getElementById('avatar-container').innerHTML = `<img src="${u.photo_url}">`;
-                }
+                document.getElementById('user-name').innerText = u.first_name;
+                document.getElementById('prof-name').innerText = u.first_name;
             }
         }
 
-        function getBal() { return parseInt(localStorage.getItem('vir_bal') || '12500'); }
-        function setBal(v) {
-            localStorage.setItem('vir_bal', v);
-            document.getElementById('balance-val').innerText = v.toLocaleString('ru-RU');
-            document.getElementById('prof-bal').innerText = v.toLocaleString('ru-RU') + ' VIR';
-        }
-        setBal(getBal());
-
-        function showPage(pageId) {
+        // Переключение страниц
+        function showPage(id, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-        }
-
-        function navTo(pageId, el) {
-            showPage(pageId);
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function openGame(name) {
-            document.getElementById('game-title').innerText = name;
-            showPage('page-game');
-        }
-
-        function openPromoModal() { document.getElementById('promo-modal').style.display = 'flex'; }
-        function closePromoModal() { document.getElementById('promo-modal').style.display = 'none'; }
-        
-        function claimPromo() {
-            const code = document.getElementById('promo-input').value.trim().toUpperCase();
-            if (code === 'VIRUS') {
-                setBal(getBal() + 5000);
-                alert('Активировано! +5000 VIR');
-                closePromoModal();
-            } else {
-                alert('Неверный код! (Попробуй: VIRUS)');
+            document.getElementById(id).classList.add('active');
+            
+            if(el) {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                el.classList.add('active');
             }
         }
     </script>
