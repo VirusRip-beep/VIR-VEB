@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>VIR CASINO</title>
+    <title>VIR CASINO (Offline)</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
@@ -212,7 +212,7 @@
         <div class="user-info" id="user-name">Игрок</div>
         <div class="balance-container">
             <span>💎</span>
-            <span class="balance-val" id="balance-val">0</span>
+            <span class="balance-val" id="balance-val">1000</span>
             <span>VIR</span>
         </div>
     </header>
@@ -294,6 +294,7 @@
     </div>
 
     <script>
+        // Инициализация Telegram WebApp
         const tg = window.Telegram?.WebApp;
         if (tg) {
             tg.expand();
@@ -302,21 +303,23 @@
             }
         }
 
-        async function apiRequest(endpoint, bodyData = {}) {
-            const initData = tg?.initData || '';
-            try {
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ initData, ...bodyData })
-                });
-                return await response.json();
-            } catch (err) {
-                return { success: false, message: 'Ошибка связи с сервером!' };
-            }
+        // --- ЛОКАЛЬНАЯ БАЗА ДАННЫХ (ОФФЛАЙН) ---
+        function getBalance() {
+            let b = localStorage.getItem('vir_balance');
+            return b ? parseInt(b) : 1000;
         }
 
-        function updateBalance(val) { document.getElementById('balance-val').innerText = val; }
+        function setBalance(val) {
+            localStorage.setItem('vir_balance', val);
+            document.getElementById('balance-val').innerText = val;
+        }
+
+        function updateBalance(delta) {
+            let current = getBalance();
+            let newBal = current + delta;
+            setBalance(newBal);
+            return newBal;
+        }
 
         function switchGame(id, e) {
             document.querySelectorAll('.game-section').forEach(x => x.classList.remove('active'));
@@ -325,56 +328,125 @@
             if (e) e.currentTarget.classList.add('active');
         }
 
+        // --- МОДАЛКА И ПРОМОКОДЫ ---
         function openPromoModal() { document.getElementById('promo-modal').style.display = 'flex'; }
         function closePromoModal() { 
             document.getElementById('promo-modal').style.display = 'none'; 
             document.getElementById('promo-input').value = '';
         }
 
-        async function submitPromocode() {
-            const code = document.getElementById('promo-input').value.trim();
+        // Список тестовых промокодов для оффлайн-проверки
+        const PROMOCODES = {
+            'START': 500,
+            'VIRUS': 1000,
+            'TEST': 5000
+        };
+
+        function submitPromocode() {
+            const code = document.getElementById('promo-input').value.trim().toUpperCase();
             if (!code) return alert('Введите код!');
-            const res = await apiRequest('/api/promocode', { code });
-            alert(res.message);
-            if (res.success) {
-                updateBalance(res.balance);
+
+            let usedPromos = JSON.parse(localStorage.getItem('vir_used_promos') || '[]');
+            if (usedPromos.includes(code)) {
+                return alert('Вы уже активировали этот промокод!');
+            }
+
+            if (PROMOCODES[code]) {
+                let bonus = PROMOCODES[code];
+                updateBalance(bonus);
+                usedPromos.push(code);
+                localStorage.setItem('vir_used_promos', JSON.stringify(usedPromos));
+                alert(`Промокод активирован! +${bonus} VIR`);
                 closePromoModal();
+            } else {
+                alert('Неверный промокод! (Попробуйте: START, VIRUS или TEST)');
             }
         }
 
-        async function claimBonus() {
-            const res = await apiRequest('/api/bonus');
-            alert(res.message);
-            if (res.success) updateBalance(res.balance);
+        // --- ЕЖЕДНЕВНЫЙ БОНУС ---
+        function claimBonus() {
+            let lastBonus = localStorage.getItem('vir_last_bonus');
+            let now = Date.now();
+
+            if (lastBonus && (now - parseInt(lastBonus)) < 86400000) {
+                let hoursLeft = Math.ceil((86400000 - (now - parseInt(lastBonus))) / 3600000);
+                return alert(`Бонус уже получен! Следующий через ${hoursLeft} ч.`);
+            }
+
+            localStorage.setItem('vir_last_bonus', now.toString());
+            updateBalance(1000);
+            alert('Вы получили ежедневный бонус +1000 VIR!');
         }
 
-        async function playSlots() {
-            const bet = +document.getElementById('slots-bet').value;
-            const res = await apiRequest('/api/play', { game: 'slots', bet });
-            if (!res.success) return alert(res.message);
-            document.getElementById('slots-reels').innerText = res.reels.join(' | ');
-            updateBalance(res.balance);
-            if (res.win > 0) alert(`Выигрыш: +${res.win} VIR!`);
+        // --- ИГРА: СЛОТЫ ---
+        function playSlots() {
+            const bet = parseInt(document.getElementById('slots-bet').value);
+            if (isNaN(bet) || bet < 100) return alert('Мин. ставка 100 VIR');
+            if (bet > getBalance()) return alert('Недостаточно VIR!');
+
+            updateBalance(-bet);
+            const symbols = ['7️⃣', '🍋', '🍒', '🍇'];
+            const r1 = symbols[Math.floor(Math.random() * symbols.length)];
+            const r2 = symbols[Math.floor(Math.random() * symbols.length)];
+            const r3 = symbols[Math.floor(Math.random() * symbols.length)];
+
+            document.getElementById('slots-reels').innerText = `${r1} | ${r2} | ${r3}`;
+
+            if (r1 === r2 && r2 === r3) {
+                let win = bet * 8;
+                updateBalance(win);
+                alert(`ДЖЕКПОТ! Вы выиграли +${win} VIR!`);
+            } else if (r1 === r2 || r2 === r3 || r1 === r3) {
+                let win = Math.floor(bet * 1.8);
+                updateBalance(win);
+                alert(`Совпадение! Вы выиграли +${win} VIR!`);
+            }
         }
 
-        async function playWheel() {
-            const bet = +document.getElementById('wheel-bet').value;
-            const res = await apiRequest('/api/play', { game: 'wheel', bet });
-            if (!res.success) return alert(res.message);
-            updateBalance(res.balance);
-            alert(res.win > 0 ? `Выигрыш (x${res.mult}): +${res.win} VIR!` : 'Мимо!');
+        // --- ИГРА: КОЛЕСО ---
+        function playWheel() {
+            const bet = parseInt(document.getElementById('wheel-bet').value);
+            if (isNaN(bet) || bet < 100) return alert('Мин. ставка 100 VIR');
+            if (bet > getBalance()) return alert('Недостаточно VIR!');
+
+            updateBalance(-bet);
+            const multipliers = [0, 2, 0.5, 3, 0, 1.5, 5];
+            const mult = multipliers[Math.floor(Math.random() * multipliers.length)];
+            const win = Math.floor(bet * mult);
+
+            if (win > 0) {
+                updateBalance(win);
+                alert(`Колесо остановилось на x${mult}! Выигрыш: +${win} VIR!`);
+            } else {
+                alert('Мимо! Попробуйте еще раз.');
+            }
         }
 
-        async function playCoin(choice) {
-            const bet = +document.getElementById('coin-bet').value;
-            const res = await apiRequest('/api/play', { game: 'coin', bet, choice });
-            if (!res.success) return alert(res.message);
-            document.getElementById('coin-res').innerText = res.result === 'орёл' ? '🦅' : '🪙';
-            updateBalance(res.balance);
-            alert(res.win > 0 ? `Вы выиграли +${res.win} VIR!` : 'Не угадали!');
+        // --- ИГРА: МОНЕТКА ---
+        function playCoin(choice) {
+            const bet = parseInt(document.getElementById('coin-bet').value);
+            if (isNaN(bet) || bet < 100) return alert('Мин. ставка 100 VIR');
+            if (bet > getBalance()) return alert('Недостаточно VIR!');
+
+            updateBalance(-bet);
+            const result = Math.random() > 0.5 ? 'орёл' : 'решка';
+            document.getElementById('coin-res').innerText = result === 'орёл' ? '🦅' : '🪙';
+
+            if (choice === result) {
+                let win = bet * 2;
+                updateBalance(win);
+                alert(`Вы угадали (${result})! +${win} VIR!`);
+            } else {
+                alert(`Не угадали! Выпал ${result}.`);
+            }
         }
 
+        // --- ИГРА: МИНЫ ---
+        let minesSet = new Set();
+        let openedCount = 0;
+        let currentMinesBet = 0;
         let activeMinesGame = false;
+
         function renderMinesBoard() {
             const board = document.getElementById('mines-board');
             board.innerHTML = '';
@@ -387,24 +459,32 @@
             }
         }
 
-        async function startMines() {
-            const bet = +document.getElementById('mines-bet').value;
-            const res = await apiRequest('/api/mines/start', { bet, minesCount: 3 });
-            if (!res.success) return alert(res.message);
-            
-            updateBalance(res.balance);
+        function startMines() {
+            const bet = parseInt(document.getElementById('mines-bet').value);
+            if (isNaN(bet) || bet < 100) return alert('Мин. ставка 100 VIR');
+            if (bet > getBalance()) return alert('Недостаточно VIR!');
+
+            updateBalance(-bet);
+            currentMinesBet = bet;
+            openedCount = 0;
             activeMinesGame = true;
+
+            // Генерируем 3 случайные мины
+            minesSet.clear();
+            while (minesSet.size < 3) {
+                minesSet.add(Math.floor(Math.random() * 25));
+            }
+
             renderMinesBoard();
             document.getElementById('mines-start-btn').style.display = 'none';
             document.getElementById('mines-cashout-btn').style.display = 'block';
+            document.getElementById('mines-cashout-btn').innerText = 'Забрать';
         }
 
-        async function stepMine(idx, cell) {
+        function stepMine(idx, cell) {
             if (!activeMinesGame || cell.classList.contains('opened')) return;
-            const res = await apiRequest('/api/mines/step', { step: idx });
-            if (!res.success) return;
 
-            if (res.exploded) {
+            if (minesSet.has(idx)) {
                 cell.classList.add('exploded');
                 cell.innerText = '💥';
                 alert('БОМБА! Ставка сгорела.');
@@ -412,15 +492,17 @@
             } else {
                 cell.classList.add('opened');
                 cell.innerText = '💎';
-                document.getElementById('mines-cashout-btn').innerText = `Забрать (${res.currentWin} VIR)`;
+                openedCount++;
+                let currentWin = Math.floor(currentMinesBet * (1 + openedCount * 0.3));
+                document.getElementById('mines-cashout-btn').innerText = `Забрать (${currentWin} VIR)`;
             }
         }
 
-        async function cashoutMines() {
-            const res = await apiRequest('/api/mines/cashout');
-            if (!res.success) return alert(res.message);
-            alert(`Забрал +${res.win} VIR!`);
-            updateBalance(res.balance);
+        function cashoutMines() {
+            if (!activeMinesGame || openedCount === 0) return alert('Сделайте хотя бы 1 ход!');
+            let win = Math.floor(currentMinesBet * (1 + openedCount * 0.3));
+            updateBalance(win);
+            alert(`Отлично! Забрал +${win} VIR!`);
             resetMinesUI();
         }
 
@@ -428,13 +510,12 @@
             activeMinesGame = false;
             document.getElementById('mines-start-btn').style.display = 'block';
             document.getElementById('mines-cashout-btn').style.display = 'none';
-            document.getElementById('mines-cashout-btn').innerText = 'Забрать';
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
+        // Старт при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('balance-val').innerText = getBalance();
             renderMinesBoard();
-            const res = await apiRequest('/api/user_info');
-            if (res.success) updateBalance(res.balance);
         });
     </script>
 </body>
