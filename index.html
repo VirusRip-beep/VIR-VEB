@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIR CASINO</title>
+    <!-- Подключаем Telegram Web App JS -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Подключаем Matter.js для физики Plinko -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Верхняя панель (Баланс и Имя) -->
+    <header class="app-header">
+        <div id="user-name" class="user-badge">👤 Загрузка...</div>
+        <div class="balance-badge">💎 <span id="user-balance">0</span> VIR</div>
+    </header>
+
+    <!-- Основной контент (Вкладки) -->
+    <main class="app-content">
+
+        <!-- 1. PLINKO -->
+        <div id="plinko-game" class="tab-content" style="display:flex; flex-direction:column; align-items:center;">
+            <h2 class="game-title">Plinko</h2>
+            <div id="plinko-board"></div>
+            <div id="plinko-results" style="font-size:12px; color:#94a3b8; margin: 5px 0; min-height: 16px;"></div>
+            <div class="controls">
+                <div class="input-group">
+                    <span class="input-label">Ставка:</span>
+                    <input type="number" id="plinko-bet" class="bet-input" value="100" oninput="validateBet('plinko')">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Шаров (2-10):</span>
+                    <input type="number" id="plinko-balls" class="bet-input" value="2" min="2" max="10">
+                </div>
+                <div id="plinko-err" class="error-text" style="display:none;">Мин. ставка 100 VIR</div>
+                <button id="plinko-btn" class="action-btn" onclick="dropBall()">Бросить шары 🟢</button>
+            </div>
+        </div>
+
+        <!-- 2. SLOTS -->
+        <div id="slots-game" class="tab-content" style="display:none; flex-direction:column; align-items:center;">
+            <h2 class="game-title">Slots</h2>
+            <div class="slots-window">
+                <div class="slot-reel" id="s1">7️⃣</div>
+                <div class="slot-reel" id="s2">🍋</div>
+                <div class="slot-reel" id="s3">🍒</div>
+            </div>
+            <div class="controls" style="width:100%;">
+                <div class="input-group">
+                    <span class="input-label">Ставка:</span>
+                    <input type="number" id="slots-bet" class="bet-input" value="100" oninput="validateBet('slots')">
+                </div>
+                <div id="slots-err" class="error-text" style="display:none;">Мин. ставка 100 VIR</div>
+                <button id="slots-btn" class="action-btn" onclick="spinSlots()">Крутить слот 🎰</button>
+            </div>
+        </div>
+
+        <!-- 3. WHEEL -->
+        <div id="wheel-game" class="tab-content" style="display:none; flex-direction:column; align-items:center;">
+            <h2 class="game-title">Wheel of Fortune</h2>
+            <div style="position:relative; width:280px; height:280px;">
+                <canvas id="wheel-canvas" width="280" height="280"></canvas>
+                <div class="wheel-pointer">▼</div>
+            </div>
+            <div class="controls" style="width:100%; margin-top:10px;">
+                <div class="input-group">
+                    <span class="input-label">Ставка:</span>
+                    <input type="number" id="wheel-bet" class="bet-input" value="100" oninput="validateBet('wheel')">
+                </div>
+                <div id="wheel-err" class="error-text" style="display:none;">Мин. ставка 100 VIR</div>
+                <button id="wheel-btn" class="action-btn" onclick="spinWheel()">Крутить колесо 🎡</button>
+            </div>
+        </div>
+
+        <!-- 4. MINES -->
+        <div id="mines-game" class="tab-content" style="display:none; flex-direction:column; align-items:center;">
+            <h2 class="game-title">Mines</h2>
+            <div id="mines-steps" style="display:flex; gap:4px; margin-bottom:8px; overflow-x:auto; width:100%; max-width:280px; padding-bottom:4px;"></div>
+            <div id="mines-board" class="mines-grid"></div>
+            <div class="controls" style="width:100%; margin-top:10px;">
+                <div id="mines-setup-1" class="input-group">
+                    <span class="input-label">Ставка:</span>
+                    <input type="number" id="mines-bet" class="bet-input" value="100" oninput="validateBet('mines')">
+                </div>
+                <div id="mines-setup-2" class="input-group" style="margin-top:6px;">
+                    <span class="input-label">Мины (3-7):</span>
+                    <input type="number" id="mines-count" class="bet-input" value="3" min="3" max="7">
+                </div>
+                <div id="mines-err" class="error-text" style="display:none;">Мин. ставка 100 VIR</div>
+                <button id="mines-action-btn" class="action-btn" style="margin-top:8px; background:var(--green);" onclick="handleMinesAction()">Начать игру 💣</button>
+            </div>
+        </div>
+
+        <!-- 5. COIN -->
+        <div id="coin-game" class="tab-content" style="display:none; flex-direction:column; align-items:center; justify-content:center; height:100%;">
+            <h2 class="game-title">Coin Flip</h2>
+            <div id="coin-icon" style="font-size:70px; margin:20px 0;">🪙</div>
+            <div class="controls" style="width:100%;">
+                <div class="input-group">
+                    <span class="input-label">Ставка:</span>
+                    <input type="number" id="coin-bet" class="bet-input" value="100" oninput="validateBet('coin')">
+                </div>
+                <div id="coin-err" class="error-text" style="display:none;">Мин. ставка 100 VIR</div>
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <button id="coin-btn-1" class="action-btn" style="background:#eab308;" onclick="flipCoin('орёл')">Орёл 🪙</button>
+                    <button id="coin-btn-2" class="action-btn" style="background:#a855f7;" onclick="flipCoin('решка')">Решка 👑</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. PROFILE -->
+        <div id="profile-page" class="tab-content" style="display:none; flex-direction:column; gap:12px;">
+            <div style="background:var(--card-bg); padding:15px; border-radius:12px; border:1px solid #1e293b; text-align:center;">
+                <div id="prof-fullname" style="font-weight:bold; font-size:18px;">Имя</div>
+                <div id="prof-username" style="color:#94a3b8; font-size:14px;">@username</div>
+                <div id="prof-id" style="color:#64748b; font-size:12px; margin-top:4px;">ID: ---</div>
+            </div>
+
+            <div style="display:flex; gap:8px;">
+                <button class="tab-btn active-profile" onclick="switchProfSub('history')">📜 История</button>
+                <button class="tab-btn" onclick="switchProfSub('tasks')">🎯 Задания</button>
+            </div>
+
+            <div id="prof-sub-history">
+                <div id="history-box" style="display:flex; flex-direction:column; gap:8px;"></div>
+            </div>
+
+            <div id="prof-sub-tasks" style="display:none;">
+                <div style="font-size:13px; color:#94a3b8; text-align:center;">Задания появятся позже</div>
+            </div>
+
+            <!-- Блок промокода -->
+            <div class="controls" style="margin-top: 10px;">
+                <div class="input-group">
+                    <span class="input-label">Промокод:</span>
+                    <input type="text" id="promo-input" class="bet-input" placeholder="Введите код...">
+                </div>
+                <button class="action-btn" onclick="activatePromo()" style="margin-top: 8px; background: #8b5cf6;">🎟 Активировать промокод</button>
+            </div>
+
+            <!-- Кнопка ежедневного бонуса -->
+            <button class="action-btn" onclick="claimBonus()" style="background: #ea580c;">🎁 Ежедневный бонус (+1000 VIR)</button>
+        </div>
+
+    </main>
+
+    <!-- Нижняя навигация (Меню игр) -->
+    <nav class="app-nav">
+        <button class="tab-btn active-plinko" onclick="switchTab('plinko', this)">🎯 Plinko</button>
+        <button class="tab-btn" onclick="switchTab('slots', this)">🎰 Slots</button>
+        <button class="tab-btn" onclick="switchTab('wheel', this)">🎡 Wheel</button>
+        <button class="tab-btn" onclick="switchTab('mines', this)">💣 Mines</button>
+        <button class="tab-btn" onclick="switchTab('coin', this)">🪙 Coin</button>
+        <button class="tab-btn" onclick="switchTab('profile', this)">👤 Профиль</button>
+    </nav>
+
+    <!-- Модальное окно уведомлений -->
+    <div id="win-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3 id="modal-title">Результат</h3>
+            <p id="modal-text"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
