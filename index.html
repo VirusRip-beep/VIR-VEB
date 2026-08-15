@@ -8,17 +8,16 @@
 
     <style>
         :root {
-            --bg-color: #030407;
-            --card-bg: rgba(15, 18, 25, 0.85);
-            --text-gold: #f5c542;
-            --text-dim: #7a8b9e;
+            --bg-color: #020305;
+            --text-gold: #ffcf40;
+            --text-dim: #6c7a89;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
         }
@@ -26,16 +25,17 @@
         body {
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(circle at 50% 20%, rgba(20, 30, 50, 0.5) 0%, transparent 70%),
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 20px 20px, 20px 20px;
+                radial-gradient(circle at 50% 30%, rgba(20, 35, 60, 0.4) 0%, transparent 70%),
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 100% 100%, 24px 24px, 24px 24px;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 12px 14px 20px 14px;
+            padding: 12px 12px 18px 12px;
+            overflow-x: hidden;
         }
 
         /* === ШАПКА === */
@@ -43,29 +43,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .user-block {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(15, 20, 30, 0.8);
+            background: rgba(12, 16, 24, 0.9);
             padding: 4px 10px 4px 4px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 22px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
 
         .user-avatar {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            background: #111;
-            border: 1px solid #25d366;
+            background: #0d131a;
+            border: 1.5px solid #22c55e;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
         }
 
         .user-avatar img {
@@ -80,10 +82,9 @@
         }
 
         .user-name {
-            font-weight: 800;
+            font-weight: 900;
             font-size: 13px;
             letter-spacing: 0.5px;
-            color: #fff;
         }
 
         .user-role {
@@ -91,47 +92,51 @@
             color: var(--text-dim);
         }
 
-        /* ЛОГОТИП ЦЕНТР */
         .brand-logo {
             text-align: center;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
         }
 
         .brand-crown {
             font-size: 14px;
             color: var(--text-gold);
-            line-height: 1;
+            filter: drop-shadow(0 0 6px rgba(255, 207, 64, 0.6));
         }
 
         .brand-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 900;
-            letter-spacing: 1.5px;
-            background: linear-gradient(180deg, #fff 0%, var(--text-gold) 100%);
+            letter-spacing: 2px;
+            background: linear-gradient(180deg, #ffffff 30%, var(--text-gold) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
         }
 
         .brand-subtitle {
             font-size: 9px;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: var(--text-dim);
-            text-transform: uppercase;
+            margin-top: -2px;
         }
 
-        /* БАЛАНС */
         .balance-block {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(15, 20, 30, 0.8);
-            padding: 4px 6px 4px 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(12, 16, 24, 0.9);
+            padding: 4px 6px 4px 12px;
+            border-radius: 22px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
 
         .balance-val {
-            font-weight: 800;
+            font-weight: 900;
             font-size: 14px;
             color: #fff;
             text-align: right;
@@ -145,10 +150,10 @@
         }
 
         .btn-add-balance {
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #6b21a8 0%, #3b0764 100%);
+            background: linear-gradient(135deg, #7e22ce 0%, #4c1d95 100%);
             border: 1px solid #a855f7;
             color: #fff;
             font-size: 16px;
@@ -157,169 +162,97 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            transition: transform 0.15s;
         }
 
-        /* === СЕТКА ИГР (ГЕКСАГОНЫ) === */
-        .games-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin: 10px 0;
+        .btn-add-balance:active {
+            transform: scale(0.9);
         }
 
-        .hexagon-card {
-            position: relative;
-            aspect-ratio: 0.95;
-            background: #090c12;
-            clip-path: polygon(50% 0%, 100% 15%, 100% 85%, 50% 100%, 0% 85%, 0% 15%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            cursor: pointer;
-            transition: transform 0.2s, filter 0.2s;
-        }
-
-        .hexagon-card:active {
-            transform: scale(0.95);
-        }
-
-        /* Обёртка с неоновой рамкой */
-        .hex-wrapper {
-            position: relative;
-            padding: 2px;
-            filter: drop-shadow(0 0 10px var(--glow-color));
-        }
-
-        .hex-wrapper::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--border-color);
-            clip-path: polygon(50% 0%, 100% 15%, 100% 85%, 50% 100%, 0% 85%, 0% 15%);
-            z-index: 1;
-        }
-
-        .hex-inner {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #101522 0%, #080a0f 100%);
-            clip-path: polygon(50% 0%, 100% 15%, 100% 85%, 50% 100%, 0% 85%, 0% 15%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
-        }
-
-        .game-img {
-            width: 85%;
-            height: 60%;
-            object-fit: contain;
-            margin-bottom: 4px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
-        }
-
-        .game-title {
-            font-size: 14px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--title-color);
-            text-shadow: 0 0 8px var(--glow-color);
-        }
-
-        /* ЦВЕТА ИГР */
-        .game-plinko {
-            --border-color: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
-            --glow-color: rgba(29, 78, 216, 0.4);
-            --title-color: #60a5fa;
-        }
-
-        .game-slots {
-            --border-color: linear-gradient(180deg, #d97706 0%, #b45309 100%);
-            --glow-color: rgba(217, 119, 6, 0.4);
-            --title-color: #fbbf24;
-        }
-
-        .game-wheel {
-            --border-color: linear-gradient(180deg, #7c3aed 0%, #5b21b6 100%);
-            --glow-color: rgba(124, 58, 237, 0.4);
-            --title-color: #c084fc;
-        }
-
-        .game-mines {
-            --border-color: linear-gradient(180deg, #15803d 0%, #166534 100%);
-            --glow-color: rgba(21, 128, 61, 0.4);
-            --title-color: #4ade80;
-        }
-
-        .game-coin {
-            --border-color: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
-            --glow-color: rgba(2, 132, 199, 0.4);
-            --title-color: #38bdf8;
-        }
-
-        .game-crash {
-            --border-color: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
-            --glow-color: rgba(220, 38, 38, 0.4);
-            --title-color: #f87171;
-        }
-
-        /* === ИГРОВАЯ ЗОНА (СКРЫТА ПО УМОЛЧАНИЮ) === */
-        .game-view {
+        /* === СЕТКА ИГР (ИДЕАЛЬНЫЕ ГЕКСАГОНЫ) === */
+        .page {
             display: none;
-            background: rgba(15, 20, 30, 0.95);
-            border-radius: 16px;
-            padding: 16px;
-            border: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
+            animation: fadeIn 0.25s ease-in-out;
         }
 
-        .game-view.active {
+        .page.active {
             display: block;
         }
 
-        .btn-back {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: #fff;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 12px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            float: left;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .btn-action {
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 6px 0;
+        }
+
+        .hex-card {
+            position: relative;
             width: 100%;
-            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-            color: #000;
-            font-weight: 800;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 15px;
+            aspect-ratio: 0.88;
+            clip-path: polygon(50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%, 0% 20%);
+            padding: 2px;
             cursor: pointer;
+            transition: transform 0.18s ease, filter 0.18s ease;
+        }
+
+        .hex-card:active {
+            transform: scale(0.94);
+        }
+
+        /* Цвета обводок и неонового свечения */
+        .hex-plinko { background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%); filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.45)); }
+        .hex-slots  { background: linear-gradient(180deg, #d97706 0%, #b45309 100%); filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.45)); }
+        .hex-wheel  { background: linear-gradient(180deg, #7c3aed 0%, #5b21b6 100%); filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.45)); }
+        .hex-mines  { background: linear-gradient(180deg, #16a34a 0%, #15803d 100%); filter: drop-shadow(0 0 8px rgba(22, 163, 74, 0.45)); }
+        .hex-coin   { background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%); filter: drop-shadow(0 0 8px rgba(2, 132, 199, 0.45)); }
+        .hex-crash  { background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%); filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.45)); }
+
+        .hex-inner {
+            width: 100%;
+            height: 100%;
+            background: #06080d;
+            clip-path: polygon(50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%, 0% 20%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hex-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* === ЭКРАНЫ ВТОРУЮ ОЧЕРЕДЬ === */
+        .content-box {
+            background: rgba(13, 17, 25, 0.9);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 16px;
             margin-top: 10px;
         }
 
-        .input-bet {
-            width: 100%;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 10px;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 16px;
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 12px;
             text-align: center;
-            margin: 10px 0;
-            outline: none;
+            color: var(--text-gold);
+        }
+
+        .leader-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 14px;
         }
 
         /* === НИЖНЕЕ МЕНЮ === */
@@ -327,26 +260,29 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            background: rgba(10, 14, 22, 0.95);
+            background: rgba(10, 13, 20, 0.95);
             border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
+            border-radius: 22px;
             padding: 8px 4px;
-            margin-top: 10px;
+            backdrop-filter: blur(10px);
         }
 
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
             color: var(--text-dim);
             font-size: 10px;
+            font-weight: 600;
             cursor: pointer;
             flex: 1;
+            transition: color 0.15s, transform 0.15s;
         }
 
         .nav-item.active {
             color: #a855f7;
+            transform: translateY(-1px);
         }
 
         .nav-icon {
@@ -359,20 +295,47 @@
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(4px);
             align-items: center;
             justify-content: center;
-            z-index: 100;
+            z-index: 999;
             padding: 20px;
         }
 
         .modal-body {
-            background: #0f141e;
+            background: #0f1420;
             border: 1px solid #a855f7;
             padding: 20px;
-            border-radius: 16px;
+            border-radius: 20px;
             width: 100%;
             max-width: 320px;
             text-align: center;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
+        }
+
+        .input-bet {
+            width: 100%;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            text-align: center;
+            margin: 12px 0;
+            outline: none;
+        }
+
+        .btn-action {
+            width: 100%;
+            background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+            color: #fff;
+            font-weight: 800;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -405,219 +368,183 @@
         </div>
     </header>
 
-    <!-- ГЛАВНОЕ МЕНЮ ИГР (ГЕКСАГОНЫ) -->
-    <div id="lobby-view">
+    <!-- ВТКЛАДКА 1: ИГРОВОЙ ХОЛЛ -->
+    <div id="page-lobby" class="page active">
         <div class="games-grid">
-            
-            <!-- PLINKO -->
-            <div class="hex-wrapper game-plinko" onclick="openGame('plinko')">
-                <div class="hex-inner">
-                    <img src="https://i.ibb.co/JjLVCZ0w/1786809225235.jpg" class="game-img" alt="Plinko">
-                    <div class="game-title">PLINKO</div>
-                </div>
+            <div class="hex-card hex-plinko" onclick="openGame('PLINKO')">
+                <div class="hex-inner"><img src="https://i.ibb.co/JjLVCZ0w/1786809225235.jpg" alt="Plinko"></div>
             </div>
-
-            <!-- SLOTS -->
-            <div class="hex-wrapper game-slots" onclick="openGame('slots')">
-                <div class="hex-inner">
-                    <img src="https://i.ibb.co/8DHFnhZ6/1786809778900.jpg" class="game-img" alt="Slots">
-                    <div class="game-title">СЛОТЫ</div>
-                </div>
+            <div class="hex-card hex-slots" onclick="openGame('СЛОТЫ')">
+                <div class="hex-inner"><img src="https://i.ibb.co/8DHFnhZ6/1786809778900.jpg" alt="Slots"></div>
             </div>
-
-            <!-- WHEEL -->
-            <div class="hex-wrapper game-wheel" onclick="openGame('wheel')">
-                <div class="hex-inner">
-                    <img src="https://i.ibb.co/0j4rs2WB/1786809906957.jpg" class="game-img" alt="Wheel">
-                    <div class="game-title">КОЛЕСО</div>
-                </div>
+            <div class="hex-card hex-wheel" onclick="openGame('КОЛЕСО')">
+                <div class="hex-inner"><img src="https://i.ibb.co/0j4rs2WB/1786809906957.jpg" alt="Wheel"></div>
             </div>
-
-            <!-- MINES -->
-            <div class="hex-wrapper game-mines" onclick="openGame('mines')">
-                <div class="hex-inner">
-                    <img src="https://i.ibb.co/NR96zJH/1786810227620.jpg" class="game-img" alt="Mines">
-                    <div class="game-title">МИНЫ</div>
-                </div>
+            <div class="hex-card hex-mines" onclick="openGame('МИНЫ')">
+                <div class="hex-inner"><img src="https://i.ibb.co/NR96zJH/1786810227620.jpg" alt="Mines"></div>
             </div>
-
-            <!-- COIN -->
-            <div class="hex-wrapper game-coin" onclick="openGame('coin')">
-                <div class="hex-inner">
-                    <img src="https://i.ibb.co/0jz38B2x/1786812059917.jpg" class="game-img" alt="Coin">
-                    <div class="game-title">МОНЕТА</div>
-                </div>
+            <div class="hex-card hex-coin" onclick="openGame('МОНЕТА')">
+                <div class="hex-inner"><img src="https://i.ibb.co/0jz38B2x/1786812059917.jpg" alt="Coin"></div>
             </div>
-
-            <!-- CRASH -->
-            <div class="hex-wrapper game-crash" onclick="openGame('crash')">
-                <div class="hex-inner">
-                    <img src="https://i.ibb.co/4ncgxRD2/1786810602933.jpg" class="game-img" alt="Crash">
-                    <div class="game-title">CRASH</div>
-                </div>
+            <div class="hex-card hex-crash" onclick="openGame('CRASH')">
+                <div class="hex-inner"><img src="https://i.ibb.co/4ncgxRD2/1786810602933.jpg" alt="Crash"></div>
             </div>
-
         </div>
     </div>
 
-    <!-- ИГРОВОЕ ОКНО -->
-    <div id="game-view" class="game-view">
-        <button class="btn-back" onclick="closeGame()">⬅️ В меню</button>
-        <div style="clear:both;"></div>
-        <h2 id="game-title-text" style="margin-bottom: 10px;">Игра</h2>
-        <div id="game-content" style="font-size:32px; margin: 20px 0;">🎰</div>
-        
-        <input type="number" id="bet-input" class="input-bet" value="100" min="100" placeholder="Ставка VIR">
-        <button class="btn-action" onclick="playCurrentGame()">Сделать ставку</button>
+    <!-- ВКЛАДКА ИГРЫ -->
+    <div id="page-game" class="page">
+        <div class="content-box" style="text-align: center;">
+            <button class="btn-action" style="width: auto; padding: 6px 14px; margin-bottom: 12px; background: #222;" onclick="showPage('page-lobby')">⬅️ Назад в меню</button>
+            <h2 id="game-title" class="section-title">ИГРА</h2>
+            <div style="font-size: 48px; margin: 20px 0;">🎰</div>
+            <input type="number" id="bet-input" class="input-bet" value="100" min="100">
+            <button class="btn-action" onclick="playGame()">Сделать ставку</button>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 2: ПРОФИЛЬ -->
+    <div id="page-profile" class="page">
+        <div class="content-box">
+            <div class="section-title">Мой Профиль</div>
+            <p style="text-align:center; color: var(--text-dim); margin-bottom: 15px;">Информация об аккаунте</p>
+            <div class="leader-item"><span>Имя:</span><b id="prof-name">VIRUS</b></div>
+            <div class="leader-item"><span>Баланс:</span><b id="prof-bal" style="color:var(--text-gold);">12,500 VIR</b></div>
+            <div class="leader-item"><span>Всего игр:</span><b>0</b></div>
+            <button class="btn-action" style="margin-top:15px;" onclick="openPromoModal()">Активировать Промокод</button>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 3: НАСТРОЙКИ -->
+    <div id="page-settings" class="page">
+        <div class="content-box">
+            <div class="section-title">Настройки</div>
+            <div class="leader-item"><span>Звуковые эффекты</span><b>ВКЛ</b></div>
+            <div class="leader-item"><span>Музыка</span><b>ВЫКЛ</b></div>
+            <div class="leader-item"><span>Анимации</span><b>ВКЛ</b></div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 4: ТОП -->
+    <div id="page-top" class="page">
+        <div class="content-box">
+            <div class="section-title">🏆 Топ Игроков</div>
+            <div class="leader-item"><span>1. 🥇 VirusRip</span><b style="color:var(--text-gold);">1,250,000 VIR</b></div>
+            <div class="leader-item"><span>2. 🥈 Alex_Casino</span><b>840,000 VIR</b></div>
+            <div class="leader-item"><span>3. 🥉 Shark_777</span><b>510,000 VIR</b></div>
+            <div class="leader-item"><span>4. CryptoKing</span><b>320,000 VIR</b></div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 5: ПОМОЩЬ -->
+    <div id="page-help" class="page">
+        <div class="content-box">
+            <div class="section-title">Помощь и FAQ</div>
+            <p style="font-size:13px; color:var(--text-dim); line-height: 1.5; margin-bottom: 10px;">
+                По всем вопросам пополнения баланса, багов или работы казино обращайтесь в нашу официальную поддержку.
+            </p>
+            <button class="btn-action" onclick="alert('Связь с админом: @support')">Написать в поддержку</button>
+        </div>
     </div>
 
     <!-- НИЖНЕЕ МЕНЮ -->
     <nav>
-        <div class="nav-item active" onclick="switchTab('profile')">
+        <div class="nav-item active" onclick="navTo('page-lobby', this)">
+            <span class="nav-icon">🏠</span>
+            <span>Главная</span>
+        </div>
+        <div class="nav-item" onclick="navTo('page-profile', this)">
             <span class="nav-icon">👤</span>
             <span>Профиль</span>
         </div>
-        <div class="nav-item" onclick="switchTab('settings')">
-            <span class="nav-icon">⚙️</span>
-            <span>Настройки</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('top')">
+        <div class="nav-item" onclick="navTo('page-top', this)">
             <span class="nav-icon">👑</span>
             <span>ТОП</span>
         </div>
-        <div class="nav-item" onclick="switchTab('help')">
+        <div class="nav-item" onclick="navTo('page-settings', this)">
+            <span class="nav-icon">⚙️</span>
+            <span>Настройки</span>
+        </div>
+        <div class="nav-item" onclick="navTo('page-help', this)">
             <span class="nav-icon">❓</span>
             <span>Помощь</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('more')">
-            <span class="nav-icon">⁝⁝</span>
-            <span>Ещё</span>
         </div>
     </nav>
 
     <!-- МОДАЛКА ПРОМОКОДА -->
     <div id="promo-modal" class="modal">
         <div class="modal-body">
-            <h3>🎟 Ввести промокод</h3>
-            <input type="text" id="promo-input" class="input-bet" placeholder="ПРОМОКОД" style="text-transform:uppercase;">
+            <h3 style="color:#fff; margin-bottom: 4px;">🎟 Промокод</h3>
+            <input type="text" id="promo-input" class="input-bet" placeholder="ВВЕДИТЕ КОД" style="text-transform:uppercase;">
             <div style="display:flex; gap:8px;">
                 <button class="btn-action" onclick="claimPromo()">Активировать</button>
-                <button class="btn-action" style="background:#333; color:#fff;" onclick="closePromoModal()">Отмена</button>
+                <button class="btn-action" style="background:#222;" onclick="closePromoModal()">Отмена</button>
             </div>
         </div>
     </div>
 
     <script>
-        let currentGame = '';
-
-        // --- TELEGRAM ИНИЦИАЛИЗАЦИЯ ---
         const tg = window.Telegram?.WebApp;
         if (tg) {
             tg.expand();
             if (tg.initDataUnsafe?.user) {
-                const user = tg.initDataUnsafe.user;
-                document.getElementById('user-name').innerText = user.first_name || 'VIRUS';
-                if (user.photo_url) {
-                    document.getElementById('avatar-container').innerHTML = `<img src="${user.photo_url}" alt="Ava">`;
+                const u = tg.initDataUnsafe.user;
+                document.getElementById('user-name').innerText = u.first_name || 'VIRUS';
+                document.getElementById('prof-name').innerText = u.first_name || 'VIRUS';
+                if (u.photo_url) {
+                    document.getElementById('avatar-container').innerHTML = `<img src="${u.photo_url}">`;
                 }
             }
         }
 
-        // --- БАЛАНС (LOCALSTORAGE) ---
-        function getBalance() {
-            let b = localStorage.getItem('vir_balance');
-            return b ? parseInt(b) : 12500;
+        function getBal() { return parseInt(localStorage.getItem('vir_bal') || '12500'); }
+        function setBal(v) {
+            localStorage.setItem('vir_bal', v);
+            document.getElementById('balance-val').innerText = v.toLocaleString('ru-RU');
+            document.getElementById('prof-bal').innerText = v.toLocaleString('ru-RU') + ' VIR';
+        }
+        setBal(getBal());
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
         }
 
-        function setBalance(val) {
-            localStorage.setItem('vir_balance', val);
-            document.getElementById('balance-val').innerText = val.toLocaleString('ru-RU');
+        function navTo(pageId, el) {
+            showPage(pageId);
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
         }
 
-        function updateBalance(delta) {
-            let current = getBalance();
-            let newBal = current + delta;
-            setBalance(newBal);
-            return newBal;
+        function openGame(name) {
+            document.getElementById('game-title').innerText = name;
+            showPage('page-game');
         }
 
-        // Инициализация при старте
-        setBalance(getBalance());
-
-        // --- ПЕРЕКЛЮЧЕНИЕ ИГР ---
-        function openGame(gameKey) {
-            currentGame = gameKey;
-            document.getElementById('lobby-view').style.display = 'none';
-            document.getElementById('game-view').classList.add('active');
-
-            const titles = {
-                'plinko': 'PLINKO',
-                'slots': 'СЛОТЫ 777',
-                'wheel': 'КОЛЕСО ФОРТУНЫ',
-                'mines': 'МИНЫ',
-                'coin': 'МОНЕТКА',
-                'crash': 'CRASH'
-            };
-            document.getElementById('game-title-text').innerText = titles[gameKey] || 'ИГРА';
-        }
-
-        function closeGame() {
-            document.getElementById('game-view').classList.remove('active');
-            document.getElementById('lobby-view').style.display = 'block';
-        }
-
-        function playCurrentGame() {
+        function playGame() {
             const bet = parseInt(document.getElementById('bet-input').value);
-            if (isNaN(bet) || bet < 100) return alert('Минимальная ставка 100 VIR!');
-            if (bet > getBalance()) return alert('Недостаточно VIR!');
-
-            updateBalance(-bet);
-
-            // Простая имитация выиграл / проиграл
-            const win = Math.random() > 0.5;
-            if (win) {
-                const prize = bet * 2;
-                updateBalance(prize);
-                alert(`🎉 Победа! Вы выиграли +${prize} VIR!`);
+            if (!bet || bet > getBal()) return alert('Недостаточно VIR!');
+            setBal(getBal() - bet);
+            if (Math.random() > 0.5) {
+                setBal(getBal() + bet * 2);
+                alert(`Победа! +${bet * 2} VIR`);
             } else {
-                alert('💥 Увы, не повезло! Попробуйте ещё раз.');
+                alert('Проигрыш!');
             }
         }
 
-        // --- МОДАЛКА ПРОМОКОДОВ ---
         function openPromoModal() { document.getElementById('promo-modal').style.display = 'flex'; }
-        function closePromoModal() { 
-            document.getElementById('promo-modal').style.display = 'none'; 
-            document.getElementById('promo-input').value = '';
-        }
-
-        const PROMOS = { 'VIRUS': 5000, 'START': 1000, 'TEST': 2500 };
-
+        function closePromoModal() { document.getElementById('promo-modal').style.display = 'none'; }
+        
         function claimPromo() {
             const code = document.getElementById('promo-input').value.trim().toUpperCase();
-            if (!code) return alert('Введите код!');
-
-            let used = JSON.parse(localStorage.getItem('vir_promos_used') || '[]');
-            if (used.includes(code)) return alert('Код уже использован!');
-
-            if (PROMOS[code]) {
-                const bonus = PROMOS[code];
-                updateBalance(bonus);
-                used.push(code);
-                localStorage.setItem('vir_promos_used', JSON.stringify(used));
-                alert(`Успешно! +${bonus} VIR`);
+            if (code === 'VIRUS') {
+                setBal(getBal() + 5000);
+                alert('Активировано! +5000 VIR');
                 closePromoModal();
             } else {
-                alert('Неверный промокод! (Попробуй: VIRUS, START или TEST)');
+                alert('Неверный код! Попробуй: VIRUS');
             }
-        }
-
-        function switchTab(tab) {
-            if (tab === 'profile') alert(`Профиль: ${document.getElementById('user-name').innerText}\nБаланс: ${getBalance()} VIR`);
-            if (tab === 'settings') alert('Настройки: Звук ВКЛ | Уведомления ВКЛ');
-            if (tab === 'top') alert('🏆 ТОП Игроков:\n1. VirusRip - 500,000 VIR\n2. Player1 - 250,000 VIR');
-            if (tab === 'help') alert('Помощь: Обратитесь в поддержку @support');
-            if (tab === 'more') openPromoModal();
         }
     </script>
 </body>
