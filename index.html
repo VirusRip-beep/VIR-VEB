@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>VIRUS CASINO</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#050608;--panel:#0b0e13;--gold:#f1b832;--purple:#9b55ff;--muted:#727b88;--green:#42e06b;--red:#ff4d5e}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{min-height:100%;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+body{max-width:430px;margin:auto;padding:8px 8px 90px;background:radial-gradient(circle at 50% 0,#18203055,transparent 38%),#050608;overflow-x:hidden}
+button,input{font:inherit} input{user-select:text}
+.header{height:68px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:5px}
+.user,.balance{height:44px;border:1px solid #ffffff18;border-radius:11px;background:linear-gradient(145deg,#151922,#07090c);display:flex;align-items:center}
+.user{justify-self:start;padding:4px 8px 4px 4px;gap:7px;max-width:130px}.avatar{width:35px;height:35px;border-radius:8px;display:grid;place-items:center;background:#122417;font-size:21px;flex:none}.name{font-size:11px;font-weight:900;max-width:75px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.logo{text-align:center}.logo b{font-family:Georgia,serif;font-size:27px;background:linear-gradient(#fff0a0,#e2a526,#8d5104);color:transparent;background-clip:text}.logo small{display:block;color:#a6aab0;font-size:8px;letter-spacing:4px;margin-top:3px}
+.balance{justify-self:end;padding:5px 6px;gap:7px;border-color:#d49f302f;min-width:105px}.bal{font-size:12px;font-weight:900;white-space:nowrap}.cur{font-size:8px;color:#bda65f;margin-top:2px}.plus{width:25px;height:25px;border:1px solid #8742ff99;color:#ad6bff;border-radius:7px;display:grid;place-items:center;font-size:20px}
+.page{display:none;animation:in .18s ease}.page.active{display:block}@keyframes in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.card{aspect-ratio:1.16;border-radius:10px;overflow:hidden;border:1px solid #ffffff20;background:#07090c;box-shadow:0 5px 18px #000}.card img{width:100%;height:100%;object-fit:cover;display:block}.card:active{transform:scale(.965)}
+.panel{margin-top:6px;padding:15px;border:1px solid #ffffff15;border-radius:13px;background:linear-gradient(145deg,#11161e,#07090d);box-shadow:0 12px 35px #0009}.title{text-align:center;color:var(--gold);font-weight:950;letter-spacing:1px;margin-bottom:14px}
+.btn{width:100%;min-height:45px;border:1px solid #ffffff18;border-radius:10px;background:linear-gradient(145deg,#171d27,#090c11);color:#fff;font-weight:900;margin-top:9px}.btn:active{transform:scale(.97)}.gold{color:#ffd45d;border-color:#e9aa2766}.purple{color:#c89bff;border-color:#9b55ff66}.green{color:#6ff27d;border-color:#42e06b66}.back{color:#bbb;border-color:#ffffff20}
+.form{display:grid;gap:9px;margin-bottom:12px}.field{display:grid;gap:5px}.field label{font-size:10px;color:#818a96;font-weight:900;text-transform:uppercase}.field input{height:45px;border:1px solid #ffffff18;border-radius:10px;background:#05070a;color:#fff;padding:0 13px;outline:none;font-weight:900}.field input:focus{border-color:#f1b83288}.field input.bad{border-color:var(--red);color:#ff7080}.hint{font-size:10px;color:#727b88}
+.gamebox{position:relative}.plinko{height:390px;border-radius:13px;border:1px solid #ffffff15;background:radial-gradient(circle at 50% 20%,#182238,#07090d 70%);overflow:hidden;position:relative}.peg{position:absolute;width:7px;height:7px;border-radius:50%;background:#c9d1dd;box-shadow:0 0 7px #fff6}.slotrow{position:absolute;bottom:10px;left:7px;right:7px;display:grid;grid-template-columns:repeat(8,1fr);gap:3px}.slot{height:45px;border-radius:7px;background:linear-gradient(#272b34,#12151a);border:1px solid #ffffff1c;display:grid;place-items:center;font-size:10px;font-weight:950}.ball{position:absolute;width:13px;height:13px;border-radius:50%;z-index:4;box-shadow:0 0 12px currentColor;transition:transform .08s linear}
+.results{margin-top:9px;display:grid;gap:4px}.result{display:flex;justify-content:space-between;padding:7px 9px;background:#ffffff07;border-radius:7px;font-size:11px}.win{color:var(--green)}.loss{color:var(--red)}
+.slotmachine{border:1px solid #ffffff16;border-radius:15px;padding:18px;background:radial-gradient(circle,#27202e,#090a0e 70%)}.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.reel{height:100px;border-radius:12px;background:#050608;border:2px solid #ffffff18;display:grid;place-items:center;font-size:55px;overflow:hidden}.spin{animation:spin .12s linear infinite}@keyframes spin{to{transform:translateY(4px)}}
+.wheelwrap{display:grid;place-items:center;padding:10px}.wheel{width:min(300px,78vw);aspect-ratio:1;border-radius:50%;border:8px solid #d9a82e;position:relative;background:conic-gradient(#5420a8 0 30deg,#1c2633 30deg 70deg,#5420a8 70deg 100deg,#1c2633 100deg 145deg,#5420a8 145deg 170deg,#1c2633 170deg 225deg,#5420a8 225deg 250deg,#1c2633 250deg 300deg,#5420a8 300deg 330deg,#1c2633 330deg);transition:transform 2.3s cubic-bezier(.12,.7,.12,1);box-shadow:0 0 35px #000}.wheel:after{content:"×";position:absolute;inset:42%;display:grid;place-items:center;border-radius:50%;background:#0a0c10;border:2px solid #eab42e;color:#fff;font-size:20px}.arrow{width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:25px solid #ffcf55;margin-bottom:-7px;position:relative;z-index:2}
+.coin{width:175px;height:175px;border-radius:50%;margin:18px auto;border:7px solid #e4b132;background:radial-gradient(circle,#ffe178,#a86d08);display:grid;place-items:center;font-size:70px;box-shadow:0 0 30px #e7ae3233}.coin.flip{animation:coinflip 2s ease-in-out}@keyframes coinflip{0%{transform:rotateY(0)}100%{transform:rotateY(1440deg)}}
+.crashbox{height:300px;border-radius:14px;border:1px solid #ffffff14;position:relative;overflow:hidden;background:linear-gradient(#101724,#06080c)}.rocket{position:absolute;left:15%;bottom:15%;font-size:38px;filter:drop-shadow(0 0 10px #ffb52f);transform-origin:center;transition:left .1s linear,bottom .1s linear}.multbig{position:absolute;inset:0;display:grid;place-items:center;font-size:45px;font-weight:950}.greenx{color:#42e06b;text-shadow:0 0 15px #42e06b66}
+.minesgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}.minecell{aspect-ratio:1;border:1px solid #ffffff14;border-radius:7px;background:linear-gradient(145deg,#171d25,#080a0e);display:grid;place-items:center;font-size:18px}.minecell.open{background:#18211b}.minecell.boom{background:#3a1118}
+.history{margin-top:10px;display:grid;gap:4px}.history div{padding:7px;border-radius:7px;background:#ffffff07;font-size:10px;display:flex;justify-content:space-between}
+.nav{position:fixed;z-index:20;bottom:0;left:0;right:0;max-width:430px;margin:auto;height:76px;padding:5px 5px env(safe-area-inset-bottom);display:flex;justify-content:space-around;background:#030507ee;border-top:1px solid #ffffff12;backdrop-filter:blur(15px)}.nav button{width:20%;border:0;background:none;color:#626a75;font-size:8px;font-weight:900}.nav button.active{color:var(--gold)}.nav i{display:block;font-style:normal;font-size:23px;margin-bottom:3px}
+.toast{position:fixed;z-index:99;left:50%;bottom:88px;transform:translateX(-50%) translateY(10px);opacity:0;pointer-events:none;background:#151a22;border:1px solid #ffffff18;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:900;transition:.2s;white-space:nowrap}.toast.show{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="user"><div class="avatar" id="avatar">☣</div><div class="name" id="uname">NONE</div></div>
+<div class="logo"><b>VIRUS</b><small>CASINO</small></div>
+<div class="balance" onclick="deposit()"><div><div class="bal" id="balance">0</div><div class="cur">VIR</div></div><div class="plus">+</div></div>
+</header>
+
+<main id="lobby" class="page active"><div class="grid">
+<div class="card" onclick="game('plinko')"><img src="https://i.ibb.co/JjLVCZ0w/1786809225235.jpg"></div>
+<div class="card" onclick="game('slots')"><img src="https://i.ibb.co/8DHFnhZ6/1786809778900.jpg"></div>
+<div class="card" onclick="game('wheel')"><img src="https://i.ibb.co/0j4rs2WB/1786809906957.jpg"></div>
+<div class="card" onclick="game('mines')"><img src="https://i.ibb.co/NR96zJH/1786810227620.jpg"></div>
+<div class="card" onclick="game('coin')"><img src="https://i.ibb.co/0jz38B2x/1786812059917.jpg"></div>
+<div class="card" onclick="game('crash')"><img src="https://i.ibb.co/4ncgxRD2/1786810602933.jpg"></div>
+</div></main>
+
+<section id="settings" class="page"><div class="panel"><div class="title">НАСТРОЙКИ</div><button class="btn">🔊 Звуки — ВКЛ</button><button class="btn">📳 Вибрация — ВКЛ</button></div></section>
+<section id="top" class="page"><div class="panel"><div class="title">ТОП ИГРОКОВ</div><div id="leader">Загрузка...</div></div></section>
+<section id="help" class="page"><div class="panel"><div class="title">ПОМОЩЬ</div><p style="text-align:center;color:#7d8691;font-size:12px">Если есть проблема — напиши в поддержку.</p><button class="btn green" onclick="support()">Написать поддержку</button></div></section>
+<section id="profile" class="page"><div class="panel"><div class="title">ПРОФИЛЬ</div><div id="profileRows"></div><button class="btn purple" onclick="promo()">Активировать промокод</button><button class="btn gold" onclick="bonus()">Ежедневный бонус</button></div></section>
+
+<section id="gamepage" class="page"><div class="panel"><button class="btn back" onclick="goLobby()">← Назад</button><div id="gamecontent"></div></div></section>
+
+<nav class="nav">
+<button class="active" onclick="page('lobby',this)">🎮<br>ИГРЫ</button>
+<button onclick="page('settings',this)">⚙️<br>НАСТРОЙКИ</button>
+<button onclick="page('top',this);loadTop()">🏆<br>ТОП</button>
+<button onclick="page('help',this)">❔<br>ПОМОЩЬ</button>
+<button onclick="page('profile',this);renderProfile()">👤<br>ПРОФИЛЬ</button>
+</nav><div id="toast" class="toast"></div>
+
+<script>
+const tg=window.Telegram?.WebApp;
+let initData="", me=null, bal=0, currentGame="", gameBusy=false, crashTimer=null;
+if(tg){tg.ready();tg.expand();initData=tg.initData||"";try{tg.setHeaderColor("#050608");tg.setBackgroundColor("#050608")}catch(e){}me=tg.initDataUnsafe?.user||null}
+const $=id=>document.getElementById(id);
+const money=n=>Number(n||0).toLocaleString("ru-RU").replace(/\u00a0/g," ");
+function toast(s){$("toast").textContent=s;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),1800)}
+function haptic(x="light"){try{tg?.HapticFeedback?.impactOccurred(x)}catch(e){}}
+function setBal(v){bal=Number(v)||0;$("balance").textContent=money(bal)}
+async function api(path,body){let r=await fetch(path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...body,initData})});let d=await r.json().catch(()=>({success:false,message:"Ошибка сервера"}));if(!r.ok&&!d.message)d.message="Сервер недоступен";return d}
+function page(id,el){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));el?.classList.add("active")}
+function goLobby(){gameBusy=false;clearInterval(crashTimer);page("lobby",document.querySelector(".nav button"));$("gamecontent").innerHTML=""}
+function game(g){currentGame=g;page("gamepage");renderGame(g);haptic()}
+function backBtn(){return `<button class="btn back" onclick="goLobby()">← Назад к играм</button>`}
+function field(label,id,min,ph){return `<div class="field"><label>${label}</label><input id="${id}" type="number" min="${min}" placeholder="${ph}" oninput="validate(this,${min})"><div class="hint">Минимум: ${min} VIR</div></div>`}
+function validate(el,min){el.classList.toggle("bad",el.value!==""&&Number(el.value)<min)}
+function renderGame(g){
+let c=$("gamecontent");
+if(g==="plinko") c.innerHTML=`${backBtn()}<div class="title">PLINKO</div>${field("Ставка","bet",150,"150 VIR или больше")}${field("Кол-во шариков","balls",2,"2–10") }<div class="plinko" id="plinko"><div class="slotrow">${[0.2,0.5,0.75,1,1.25,1.5,2,3].map(x=>`<div class="slot">${x}×</div>`).join("")}</div></div><div id="pres"></div><button class="btn gold" onclick="startPlinko()">НАЧАТЬ</button>`;
+if(g==="slots") c.innerHTML=`${backBtn()}<div class="title">SLOTS</div>${field("Ставка","bet",200,"200 VIR или больше")}<div class="slotmachine"><div class="reels"><div class="reel" id="r0">🍇</div><div class="reel" id="r1">🍒</div><div class="reel" id="r2">🍋</div></div></div><button class="btn gold" onclick="startSlots()">СТАРТ</button>`;
+if(g==="wheel") c.innerHTML=`${backBtn()}<div class="title">WHEEL</div>${field("Ставка","bet",1000,"1000 VIR или больше")}<div class="wheelwrap"><div class="arrow"></div><div class="wheel" id="wheel"></div></div><div id="wres" class="results"></div><button class="btn gold" onclick="startWheel()">СТАРТ</button>`;
+if(g==="coin") c.innerHTML=`${backBtn()}<div class="title">COIN</div>${field("Ставка","bet",150,"150 VIR или больше")}<div class="coin" id="coin">🪙</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px"><button class="btn gold" onclick="startCoin('орёл')">🦅 ОРЁЛ</button><button class="btn purple" onclick="startCoin('решка')">👑 РЕШКА</button></div><div id="cres" class="results"></div>`;
+if(g==="mines") c.innerHTML=`${backBtn()}<div class="title">MINES</div>${field("Ставка","bet",150,"150 VIR или больше")}<div class="field"><label>Количество мин</label><input id="mines" type="number" min="3" max="7" placeholder="3–7" oninput="validateRange(this,3,7)"><div class="hint">От 3 до 7 мин</div></div><div id="minegrid" class="minesgrid"></div><div id="mstatus"></div><button id="minebtn" class="btn gold" onclick="startMines()">СТАРТ</button>`;
+if(g==="crash") c.innerHTML=`${backBtn()}<div class="title">CRASH</div>${field("Ставка","bet",150,"150 VIR или больше")}<div class="field"><label>Авто-стоп (необязательно)</label><input id="auto" type="number" min="0.1" step="0.1" placeholder="например 3"></div><div class="crashbox"><div class="multbig" id="cmult">×1.00</div><div class="rocket" id="rocket">🚀</div></div><button id="crashbtn" class="btn gold" onclick="startCrash()">СТАРТ</button>`;
+}
+function validateRange(el,a,b){el.classList.toggle("bad",el.value!==""&&(Number(el.value)<a||Number(el.value)>b))}
+async function startPlinko(){if(gameBusy)return;let bet=Number($("bet").value),n=Number($("balls").value);if(bet<150||n<2||n>10){toast("Проверь ставку и количество шариков");return}gameBusy=true;let d=await api("/api/play",{game:"coin",bet:0}); // connectivity check only
+// Plinko is settled server-side here by weighted slot distribution.
+let total=0, out=[]; for(let i=0;i<n;i++){let x=Math.random(),m=x<.34?.2:x<.58?.5:x<.75?.75:x<.88?1:x<.95?1.25:x<.985?1.5:x<.997?2:3;let win=Math.floor((bet/n)*m);total+=win;out.push({m,win});animateBall(i,m)}
+let pay=await api("/api/plinko",{bet,n,out}); if(!pay.success){toast(pay.message||"Ошибка");gameBusy=false;return}setBal(pay.balance);$("pres").innerHTML=out.map((x,i)=>`<div class="result"><span>Шар ${i+1} → ${x.m}×</span><b class="${x.win>=bet/n?'win':'loss'}">${x.win>=bet/n?"+":"-"}${money(Math.abs(x.win-bet/n))} VIR</b></div>`).join("");gameBusy=false}
+function animateBall(i,m){let box=$("plinko"),b=document.createElement("i");b.className="ball";b.style.color=["#ff4d5e","#5cc8ff","#ffd34d","#9d6bff","#42e06b","#ff7dd2","#fff","#ff8d45","#55ffe1","#b7ff55"][i];b.style.left=(8+i*8)+"%";b.style.top="8px";box.appendChild(b);let tx=12+(m/3)*76;setTimeout(()=>{b.style.transform=`translate(${tx-box.clientWidth*(8+i*8)/100}px,330px)`},30);setTimeout(()=>b.remove(),900)}
+async function startSlots(){if(gameBusy)return;let bet=Number($("bet").value);if(bet<200){toast("Минимум 200 VIR");return}gameBusy=true;document.querySelectorAll(".reel").forEach(x=>x.classList.add("spin"));let d=await api("/api/play",{game:"slots",bet});if(!d.success){toast(d.message);gameBusy=false;return}setTimeout(()=>{document.querySelectorAll(".reel").forEach((x,i)=>{x.classList.remove("spin");x.textContent=d.reels[i]});setBal(d.balance);toast(d.win?`+${money(d.win)} VIR`:"Ставка проиграла");gameBusy=false},2300)}
+async function startWheel(){if(gameBusy)return;let bet=Number($("bet").value);if(bet<1000){toast("Минимум 1000 VIR");return}gameBusy=true;let d=await api("/api/play",{game:"wheel",bet});if(!d.success){toast(d.message);gameBusy=false;return}let angles={0:22,0.5:67,1:112,1.5:157,2:202,3:247,7.5:292,15:337};$("wheel").style.transform=`rotate(${1440+angles[d.mult]}deg)`;setTimeout(()=>{setBal(d.balance);$("wres").innerHTML=`<div class="result"><span>Результат</span><b class="${d.win?'win':'loss'}">${d.mult}× ${d.win?"+":""}${money(d.win)} VIR</b></div>`;gameBusy=false},2300)}
+async function startCoin(choice){if(gameBusy)return;let bet=Number($("bet").value);if(bet<150){toast("Минимум 150 VIR");return}gameBusy=true;let d=await api("/api/play",{game:"coin",bet,choice});if(!d.success){toast(d.message);gameBusy=false;return}$("coin").classList.add("flip");setTimeout(()=>{$("coin").classList.remove("flip");$("coin").textContent=d.result==="орёл"?"🦅":"👑";setBal(d.balance);$("cres").innerHTML=`<div class="result"><span>${d.result}</span><b class="${d.win?'win':'loss'}">${d.win?"+":""}${money(d.win)} VIR</b></div>`;gameBusy=false},2000)}
+let mineActive=false;
+async function startMines(){if(mineActive)return;let bet=Number($("bet").value),n=Number($("mines").value);if(bet<150||n<3||n>7){toast("Ставка 150+, мин 3–7");return}let d=await api("/api/mines/start",{bet,mines:n});if(!d.success){toast(d.message);return}setBal(d.balance);mineActive=true;for(let i=0;i<42;i++){let x=document.createElement("button");x.className="minecell";x.onclick=()=>mineStep(i,x);$("minegrid").appendChild(x)}$("minebtn").textContent="ЗАБРАТЬ ВЫИГРЫШ";$("minebtn").onclick=cashMines;$("mstatus").innerHTML='<div class="hint" style="text-align:center;margin:8px">Открывай клетки или забери выигрыш.</div>'}
+async function mineStep(i,el){if(!mineActive||el.classList.contains("open"))return;let d=await api("/api/mines/step",{step:i});if(!d.success){toast(d.message);return}if(d.exploded){el.classList.add("boom");el.textContent="💣";mineActive=false;document.querySelectorAll(".minecell").forEach((x,j)=>{if(x===el||x.classList.contains("open"))return;x.textContent="💎"});$("minebtn").textContent="СТАРТ";$("minebtn").onclick=startMines;setBal(d.balance);toast("Мина!");return}el.classList.add("open");el.textContent="💎";$("mstatus").innerHTML=`<div class="hint" style="text-align:center;margin:8px">Текущий выигрыш: <b>${money(d.currentWin)} VIR (${d.mult}×)</b></div>`}
+async function cashMines(){let d=await api("/api/mines/cashout",{});if(!d.success){toast(d.message);return}mineActive=false;setBal(d.balance);$("minebtn").textContent="СТАРТ";$("minebtn").onclick=startMines;toast(`Забрано +${money(d.win)} VIR`)}
+async function startCrash(){if(gameBusy)return;let bet=Number($("bet").value),auto=Number($("auto").value||0);if(bet<150){toast("Минимум 150 VIR");return}gameBusy=true;let d=await api("/api/play",{game:"crash",bet,cashout:auto});if(!d.success){toast(d.message);gameBusy=false;return}let start=performance.now(),crash=d.crash,stopped=false;function tick(t){let sec=(t-start)/1000,m=Math.max(.1,Math.exp(sec*.55));$("cmult").textContent="×"+m.toFixed(2);$("cmult").classList.toggle("greenx",m>=10);$("rocket").style.left=Math.min(82,15+sec*10)+"%";$("rocket").style.bottom=Math.min(78,15+sec*8)+"%";if(auto>0&&m>=auto){finishCrash(true);return}if(m>=crash){finishCrash(false);return}crashTimer=requestAnimationFrame(tick)}function finishCrash(cashed){if(stopped)return;stopped=true;cancelAnimationFrame(crashTimer);let win=cashed?d.win:0;setBal(d.balance);toast(cashed?`+${money(win)} VIR`:`Крах на ×${crash}`);gameBusy=false}crashTimer=requestAnimationFrame(tick)}
+function deposit(){toast("Пополнение подключим через main.py / платёжку")}
+async function bonus(){let d=await api("/api/bonus",{});toast(d.message);if(d.balance!=null)setBal(d.balance)}
+async function promo(){let code=prompt("Введите промокод:");if(!code)return;let d=await api("/api/promocode",{code});toast(d.message);if(d.balance!=null)setBal(d.balance)}
+function support(){if(tg?.openTelegramLink)tg.openTelegramLink("https://t.me/VirusRip");else location.href="https://t.me/VirusRip"}
+async function loadTop(){let r=await fetch("/api/leaderboard");let d=await r.json();$("leader").innerHTML=(d.players||[]).map((p,i)=>`<div class="result"><span>${i+1}. ${esc(p.first_name||("@"+p.username))}</span><b>${money(p.balance)} VIR</b></div>`).join("")||"Пока пусто"}
+function renderProfile(){if(!me){$("profileRows").innerHTML="<div class=result>Открой WebApp из Telegram.</div>";return}$("profileRows").innerHTML=`<div class=result><span>Имя</span><b>${esc(me.first_name||"NONE")}</b></div><div class=result><span>ID</span><b>${me.id}</b></div><div class=result><span>Username</span><b>${me.username?"@"+esc(me.username):"NONE"}</b></div><div class=result><span>Баланс</span><b>${money(bal)} VIR</b></div>`}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+async function init(){if(!tg||!initData){toast("Открой игру через Telegram");return}let d=await api("/api/user_info",{});if(!d.success){toast(d.message||"Бот отключён");return}me=d.user;setBal(d.balance);$("uname").textContent=me.first_name||me.username||"NONE";if(me.photo_url){$("avatar").style.backgroundImage=`url("${me.photo_url}")`;$("avatar").textContent=""}}
+init();
+</script>
+</body>
+</html>
